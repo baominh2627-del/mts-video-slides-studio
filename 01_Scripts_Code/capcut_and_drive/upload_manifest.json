@@ -1,0 +1,264 @@
+{
+  "account": "baominh2627@gmail.com",
+  "root_drive_folder": "MTS_EDUCATION_DRIVE",
+  "total_files": 32,
+  "total_bytes": 241398980,
+  "items": [
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\MÁY GIA TỐC CYCLOTRON_CHỈNH SỬA_1080p.mp4",
+      "rel_path": "MÁY GIA TỐC CYCLOTRON_CHỈNH SỬA_1080p.mp4",
+      "target_folder": "01_Bai_Giang_Hoan_Thien",
+      "remote_name": "MAY_GIA_TOC_CYCLOTRON_MTSEducation_1080p.mp4",
+      "size": 42132362,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\PHUONG_TRINH_VAN_DER_WAALS_MTSEducation.mp4",
+      "rel_path": "PHUONG_TRINH_VAN_DER_WAALS_MTSEducation.mp4",
+      "target_folder": "01_Bai_Giang_Hoan_Thien",
+      "remote_name": "PHUONG_TRINH_VAN_DER_WAALS_MTSEducation.mp4",
+      "size": 12066085,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\DEMO WEB_MTSEducation.mp4",
+      "rel_path": "DEMO WEB_MTSEducation.mp4",
+      "target_folder": "02_Demo_San_Pham_Web",
+      "remote_name": "DEMO_WEB_MTSEducation.mp4",
+      "size": 31836982,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\DEMO WEB.mp4",
+      "rel_path": "DEMO WEB.mp4",
+      "target_folder": "02_Demo_San_Pham_Web",
+      "remote_name": "DEMO_WEB_Goc.mp4",
+      "size": 31836982,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\video_build\\story_stream_1080p.mp4",
+      "rel_path": "video_build\\story_stream_1080p.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "story_stream_1080p.mp4",
+      "size": 7189650,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\video_build\\video_stream.mp4",
+      "rel_path": "video_build\\video_stream.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "video_stream.mp4",
+      "size": 4954898,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\video_build\\story_stream.mp4",
+      "rel_path": "video_build\\story_stream.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "story_stream_nhap.mp4",
+      "size": 3700880,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\concat_video.mp4",
+      "rel_path": "demo_web_temp\\concat_video.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "concat_demo_video.mp4",
+      "size": 27130487,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\test_norotate.mp4",
+      "rel_path": "test_norotate.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "test_norotate.mp4",
+      "size": 31836947,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\test_render_5s_white.mp4",
+      "rel_path": "test_render_5s_white.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "test_render_5s_white.mp4",
+      "size": 6490475,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\test_render_5s.mp4",
+      "rel_path": "test_render_5s.mp4",
+      "target_folder": "03_Ban_Dung_Va_Kiem_Tra",
+      "remote_name": "test_render_5s.mp4",
+      "size": 298737,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_00.mp4",
+      "rel_path": "demo_web_temp\\seg_00.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_00.mp4",
+      "size": 1648708,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_01.mp4",
+      "rel_path": "demo_web_temp\\seg_01.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_01.mp4",
+      "size": 1146350,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_02.mp4",
+      "rel_path": "demo_web_temp\\seg_02.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_02.mp4",
+      "size": 9430668,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_03.mp4",
+      "rel_path": "demo_web_temp\\seg_03.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_03.mp4",
+      "size": 1614406,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_04.mp4",
+      "rel_path": "demo_web_temp\\seg_04.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_04.mp4",
+      "size": 6618089,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_05.mp4",
+      "rel_path": "demo_web_temp\\seg_05.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_05.mp4",
+      "size": 2758304,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\demo_web_temp\\seg_06.mp4",
+      "rel_path": "demo_web_temp\\seg_06.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/demo_segments",
+      "remote_name": "seg_06.mp4",
+      "size": 3919147,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_1.mp4",
+      "rel_path": "web_records\\scene_1.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_1.mp4",
+      "size": 225395,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_2.mp4",
+      "rel_path": "web_records\\scene_2.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_2.mp4",
+      "size": 424036,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_3.mp4",
+      "rel_path": "web_records\\scene_3.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_3.mp4",
+      "size": 474256,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_4.mp4",
+      "rel_path": "web_records\\scene_4.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_4.mp4",
+      "size": 239801,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_5.mp4",
+      "rel_path": "web_records\\scene_5.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_5.mp4",
+      "size": 388329,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\scene_6.mp4",
+      "rel_path": "web_records\\scene_6.mp4",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/web_scenes",
+      "remote_name": "scene_6.mp4",
+      "size": 396056,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\temp_recordings\\page@34acc0186edc2a9c167d90df054ed377.webm",
+      "rel_path": "temp_recordings\\page@34acc0186edc2a9c167d90df054ed377.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@34acc0186edc2a9c167d90df054ed377.webm",
+      "size": 629644,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\video_clips\\page@2df016fa7ef886f6744d5d8cd9d2d16c.webm",
+      "rel_path": "video_clips\\page@2df016fa7ef886f6744d5d8cd9d2d16c.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@2df016fa7ef886f6744d5d8cd9d2d16c.webm",
+      "size": 637964,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_1\\page@01ff58bcb7483eba4729682e81525ceb.webm",
+      "rel_path": "web_records\\temp_scene_1\\page@01ff58bcb7483eba4729682e81525ceb.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@01ff58bcb7483eba4729682e81525ceb.webm",
+      "size": 1712125,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_2\\page@d1ae26211f011c9c792cdd5a15791ffa.webm",
+      "rel_path": "web_records\\temp_scene_2\\page@d1ae26211f011c9c792cdd5a15791ffa.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@d1ae26211f011c9c792cdd5a15791ffa.webm",
+      "size": 1837781,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_3\\page@87edd31ccc6d67e77ae02a34ac48ff3d.webm",
+      "rel_path": "web_records\\temp_scene_3\\page@87edd31ccc6d67e77ae02a34ac48ff3d.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@87edd31ccc6d67e77ae02a34ac48ff3d.webm",
+      "size": 2158292,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_4\\page@9e3f94a3e3776d5f748ca633844e20a6.webm",
+      "rel_path": "web_records\\temp_scene_4\\page@9e3f94a3e3776d5f748ca633844e20a6.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@9e3f94a3e3776d5f748ca633844e20a6.webm",
+      "size": 1671628,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_5\\page@d4209266908442b57f60f34fa68dd234.webm",
+      "rel_path": "web_records\\temp_scene_5\\page@d4209266908442b57f60f34fa68dd234.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@d4209266908442b57f60f34fa68dd234.webm",
+      "size": 1917485,
+      "status": "READY_FOR_UPLOAD"
+    },
+    {
+      "local_path": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\web_records\\temp_scene_6\\page@359928a9d1afb49094e9fe890b86abff.webm",
+      "rel_path": "web_records\\temp_scene_6\\page@359928a9d1afb49094e9fe890b86abff.webm",
+      "target_folder": "04_Phan_Doan_Va_Quay_Tam/raw_webm_captures",
+      "remote_name": "page@359928a9d1afb49094e9fe890b86abff.webm",
+      "size": 2076031,
+      "status": "READY_FOR_UPLOAD"
+    }
+  ]
+}

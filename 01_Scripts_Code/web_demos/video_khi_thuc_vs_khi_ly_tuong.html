@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Bài Giảng: Khí Thực vs Khí Lí Tưởng</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .screen-bg {
+      background: radial-gradient(circle at 50% 25%, #0f172a 0%, #020617 100%);
+    }
+    .tab-active {
+      background-color: #2563eb !important;
+      border-color: #3b82f6 !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased p-2 sm:p-4 font-sans min-h-screen flex flex-col justify-center items-center">
+  <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    
+    <!-- 1. HEADER CHÍNH -->
+    <header class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/95">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg border border-blue-500/30">
+          ⚛️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 rounded font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/30">VẬT LÍ 12 MỚI</span>
+            <span class="text-xs px-2 py-0.5 rounded font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">GDPT 2018</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white mt-0.5">Phân Biệt Khí Thực & Khí Lí Tưởng</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs text-amber-300">
+          <span>Phím tắt:</span>
+          <kbd class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-600 font-mono text-[11px] font-bold text-white shadow-sm">Tab ↹</kbd>
+          <span>chuyển cảnh</span>
+        </div>
+        <button id="btnVoiceToggle" class="px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center gap-1.5 transition">
+          <span id="voiceIcon">🔊</span> <span id="voiceStatus">Thuyết minh: BẬT</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. HỆ THỐNG CÁC TAB CHUYỂN CẢNH (BẤM NÚT HOẶC NHẤN PHÍM TAB TRÊN BÀN PHÍM) -->
+    <div class="bg-slate-950/80 border-b border-slate-800 px-3 py-2 flex items-center justify-between gap-2 overflow-x-auto">
+      <div class="flex items-center gap-1.5 flex-nowrap" id="tabContainer">
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5 tab-active" data-scene="0">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>1. Thể tích</span>
+        </button>
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-scene="1">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>2. Lực tương tác</span>
+        </button>
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-scene="2">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>3. Nội năng U</span>
+        </button>
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-scene="3">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>4. PT & Hệ số Z</span>
+        </button>
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-scene="4">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>5. Hóa lỏng</span>
+        </button>
+        <button class="scene-tab px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5" data-scene="5">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          <span>6. Tiệm cận</span>
+        </button>
+      </div>
+
+      <!-- Phím Tab hướng dẫn trực tiếp -->
+      <div class="sm:hidden flex items-center">
+        <kbd class="px-2 py-1 rounded bg-slate-800 border border-slate-700 text-amber-300 font-mono text-[11px] font-bold">Tab ↹</kbd>
+      </div>
+    </div>
+
+    <!-- 3. THANH TIÊU ĐỀ PHÂN CẢNH HIỆN TẠI (NẰM NGOÀI MÀN HÌNH VIDEO) -->
+    <div class="bg-slate-800/90 border-b border-slate-700 px-4 py-2 flex flex-wrap items-center justify-between gap-2 shadow-inner">
+      <div class="flex items-center gap-2">
+        <span id="chapterBadge" class="bg-blue-600 text-white text-xs px-2.5 py-0.5 rounded font-bold">
+          Cảnh 1/6: Thể tích phân tử
+        </span>
+        <span id="chapterSubtitle" class="text-xs sm:text-sm font-bold text-amber-300">
+          Chất điểm (thể tích = 0) vs Kích thước không gian xác định
+        </span>
+      </div>
+      <span id="timeDisplay" class="text-xs font-mono font-bold text-slate-300 bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+        00:15 / 01:30
+      </span>
+    </div>
+
+    <!-- 4. MÀN HÌNH VIDEO MÔ PHỎNG (100% THÔNG THOÁNG, KHÔNG BỊ CHÈN CHỮ) -->
+    <div class="relative screen-bg w-full aspect-[16/9] min-h-[340px] max-h-[460px] border-b border-slate-800 flex flex-col overflow-hidden">
+      
+      <!-- Chia 2 cột: Trái (Khí Lí Tưởng) | Phải (Khí Thực) -->
+      <div class="absolute inset-0 flex flex-row">
+        
+        <!-- Cột Trái: Khí Lí Tưởng -->
+        <div class="relative flex-1 border-r border-slate-800 flex flex-col">
+          <div class="bg-slate-950/90 border-b border-slate-800 px-3 py-1.5 flex items-center justify-between text-xs z-10">
+            <div class="flex items-center gap-1.5 font-bold text-blue-400">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse"></span>
+              <span>KHÍ LÍ TƯỞNG</span>
+            </div>
+            <div id="idealGauge" class="text-xs font-mono text-blue-300 font-bold bg-blue-950/60 px-2 py-0.5 rounded border border-blue-500/30">
+              Chất điểm: r ≈ 0
+            </div>
+          </div>
+          <canvas id="canvasIdeal" class="w-full h-full flex-1"></canvas>
+        </div>
+
+        <!-- Cột Phải: Khí Thực -->
+        <div class="relative flex-1 flex flex-col">
+          <div class="bg-slate-950/90 border-b border-slate-800 px-3 py-1.5 flex items-center justify-between text-xs z-10">
+            <div class="flex items-center gap-1.5 font-bold text-rose-400">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
+              <span>KHÍ THỰC</span>
+            </div>
+            <div id="realGauge" class="text-xs font-mono text-rose-300 font-bold bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/30">
+              Có bán kính: r > 0
+            </div>
+          </div>
+          <canvas id="canvasReal" class="w-full h-full flex-1"></canvas>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 5. KHU VỰC HIỆN KIẾN THỨC 2 KHÍ RÕ RÀNG (NẰM NGAY SÁT DƯỚI VIDEO) -->
+    <div class="p-3 sm:p-4 bg-slate-900 border-b border-slate-800">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Khối Kiến thức Khí Lí Tưởng -->
+        <div class="p-3 rounded-xl bg-blue-950/40 border border-blue-500/40 shadow-sm flex flex-col gap-1.5">
+          <div class="text-xs font-bold text-blue-400 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🔵</span> KIẾN THỨC: KHÍ LÍ TƯỞNG
+            </span>
+            <span id="idealTag" class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Chất điểm</span>
+          </div>
+          <div id="idealCardDesc" class="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+            Đang tải dữ liệu...
+          </div>
+        </div>
+
+        <!-- Khối Kiến thức Khí Thực -->
+        <div class="p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 shadow-sm flex flex-col gap-1.5">
+          <div class="text-xs font-bold text-rose-400 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🔴</span> KIẾN THỨC: KHÍ THỰC
+            </span>
+            <span id="realTag" class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Có kích thước</span>
+          </div>
+          <div id="realCardDesc" class="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+            Đang tải dữ liệu...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. PHỤ ĐỀ / LỜI BÌNH THUYẾT MINH -->
+    <div class="px-4 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm flex-shrink-0 border border-blue-500/30">
+        🎙️
+      </div>
+      <p id="subtitlesText" class="text-xs sm:text-sm font-medium text-slate-200 leading-snug flex-1">
+        Đang chuẩn bị nội dung thuyết minh...
+      </p>
+    </div>
+
+    <!-- 7. THANH ĐIỀU KHIỂN & TIẾN TRÌNH (DƯỚI CÙNG) -->
+    <div class="p-3 bg-slate-900 flex flex-col gap-2.5">
+      <!-- Thanh tiến trình (Timeline Bar) -->
+      <div class="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden cursor-pointer" id="timelineBar">
+        <div id="timelineProgress" class="h-full bg-blue-500 transition-all duration-300" style="width: 16.6%"></div>
+      </div>
+
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <button id="btnPrev" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition flex items-center gap-1">
+            ⏮️ <span>Cảnh trước</span>
+          </button>
+          <button id="btnPlay" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span id="playIcon">▶</span> <span id="playLabel">Phát Video</span>
+          </button>
+          <button id="btnNext" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition flex items-center gap-1">
+            <span>Cảnh sau</span> ⏭️
+          </button>
+        </div>
+
+        <div class="text-xs text-slate-400 flex items-center gap-1">
+          <span>Nhấn</span>
+          <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-amber-300 font-mono font-bold">Tab</kbd>
+          <span>hoặc</span>
+          <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-white font-mono font-bold">Space</kbd>
+          <span>để tạm dừng/phát</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- DỮ LIỆU CÁC PHÂN CẢNH ---
+    const scenes = [
+      {
+        badge: "Cảnh 1/6: Thể tích phân tử",
+        subtitle: "Chất điểm (thể tích riêng = 0) vs Kích thước không gian xác định",
+        narration: "1. Về thể tích: Khí lí tưởng bỏ qua kích thước phân tử và coi chúng là các chất điểm. Ngược lại, phân tử khí thực có kích thước hình học xác định.",
+        idealTag: "Chất điểm (V = 0)",
+        realTag: "Kích thước xác định (V > 0)",
+        idealDesc: "• Phân tử được coi là <strong>chất điểm</strong> (kích thước vô cùng nhỏ, bỏ qua).<br>• Thể tích khí bằng toàn bộ <strong>thể tích bình chứa</strong>.",
+        realDesc: "• Phân tử có <strong>kích thước hình học xác định</strong> (đối thể tích).<br>• Thể tích tự do chuyển động = Thể tích bình trừ thể tích riêng của các hạt.",
+        idealGauge: "Chất điểm: r ≈ 0",
+        realGauge: "Có bán kính: r > 0",
+        pistonPos: 0,
+        tempLevel: "normal",
+        mode: "size"
+      },
+      {
+        badge: "Cảnh 2/6: Lực tương tác phân tử",
+        subtitle: "Lực tương tác = 0 vs Tồn tại lực hút và đẩy Van der Waals",
+        narration: "2. Về lực tương tác: Khí lí tưởng hoàn toàn không có lực tương tác khi ở xa, chỉ tương tác khi va chạm đàn hồi. Khí thực luôn có lực hút và lực đẩy Van der Waals.",
+        idealTag: "F tương tác = 0",
+        realTag: "Lực Van der Waals",
+        idealDesc: "• <strong>Bằng không</strong> khi ở khoảng cách xa.<br>• Chỉ tương tác khi <strong>va chạm đàn hồi</strong> hoàn toàn (quỹ đạo đường thẳng).",
+        realDesc: "• Tồn tại <strong>lực hút và lực đẩy</strong> liên phân tử (lực Van der Waals).<br>• Tia sáng vàng minh họa lực hút kéo uốn cong quỹ đạo khi lại gần nhau.",
+        idealGauge: "F = 0 (Bay thẳng)",
+        realGauge: "F hút Van der Waals",
+        pistonPos: 0,
+        tempLevel: "normal",
+        mode: "force"
+      },
+      {
+        badge: "Cảnh 3/6: Bản chất Nội năng (U)",
+        subtitle: "U chỉ phụ thuộc nhiệt độ T vs U phụ thuộc cả T và thể tích V",
+        narration: "3. Về nội năng U: Khí lí tưởng chỉ là tổng động năng nên CHỈ PHỤ THUỘC VÀO NHIỆT ĐỘ T. Khí thực gồm cả động năng và thế năng tương tác, nên PHỤ THUỘC CẢ NHIỆT ĐỘ T VÀ THỂ TÍCH V!",
+        idealTag: "U = f(T)",
+        realTag: "U = f(T, V)",
+        idealDesc: "• Nội năng chỉ là tổng động năng: <strong>U = Eđ = f(T)</strong>.<br>• Khi nén thể tích giảm (T không đổi) => Nội năng U <strong>KHÔNG ĐỔI</strong>.",
+        realDesc: "• Nội năng gồm động năng và thế năng: <strong>U = Eđ(T) + Et(V) = f(T, V)</strong>.<br>• Nén thể tích V giảm => Các hạt ép sát => Thế năng tăng => U <strong>THAY ĐỔI</strong>.",
+        idealGauge: "U = f(T) [Hằng số khi nén]",
+        realGauge: "U = f(T, V) [Tăng khi nén]",
+        pistonPos: 1,
+        tempLevel: "normal",
+        mode: "internal_energy"
+      },
+      {
+        badge: "Cảnh 4/6: Phương trình trạng thái & Hệ số nén Z",
+        subtitle: "Tuân theo pV = nRT (Z = 1) vs Phương trình Van der Waals (Z ≠ 1)",
+        narration: "4. Về phương trình trạng thái: Khí lí tưởng tuân theo đúng pV = nRT với hệ số nén Z luôn bằng 1. Khí thực có sai lệch, tuân theo phương trình Van der Waals và Z khác 1.",
+        idealTag: "pV = νRT | Z = 1",
+        realTag: "Van der Waals | Z ≠ 1",
+        idealDesc: "• Tuân theo tuyệt đối: <strong>pV = νRT</strong> (Clapeyron - Mendeleev).<br>• Hệ số nén: <strong>Z = pV / (νRT) ≡ 1</strong> (luôn bằng 1 ở mọi điều kiện).",
+        realDesc: "• Tuân theo phương trình hiệu chỉnh: <strong>(p + a/V²)(V - b) = νRT</strong>.<br>• Hệ số nén: <strong>Z ≠ 1</strong> (lệch khỏi 1 do ảnh hưởng của kích thước và lực hút).",
+        idealGauge: "Z = 1.00 (Chuẩn)",
+        realGauge: "Z = 0.88 ≠ 1.00",
+        pistonPos: 1,
+        tempLevel: "normal",
+        mode: "equation"
+      },
+      {
+        badge: "Cảnh 5/6: Sự chuyển pha (Hóa lỏng)",
+        subtitle: "Không bao giờ hóa lỏng vs Ngưng tụ thành chất lỏng khi nén ở T < Tth",
+        narration: "5. Về sự chuyển pha: Khí lí tưởng KHÔNG BAO GIỜ HÓA LỎNG vì không có lực hút phân tử. Khí thực khi nén ở nhiệt độ thấp hơn nhiệt độ tới hạn sẽ ngưng tụ thành chất lỏng!",
+        idealTag: "Không bao giờ hóa lỏng",
+        realTag: "Ngưng tụ pha lỏng",
+        idealDesc: "• <strong>KHÔNG BAO GIỜ hóa lỏng hay hóa rắn</strong> dù bị nén ở áp suất cực cao.<br>• Vì giữa các phân tử hoàn toàn không có lực hút để kéo dính lại.",
+        realDesc: "• <strong>CÓ THỂ ngưng tụ thành chất lỏng</strong> khi nén ở nhiệt độ thấp hơn nhiệt độ tới hạn (T < Tth).<br>• Các hạt liên kết tụ thành lớp chất lỏng ở đáy bình có mặt thoáng.",
+        idealGauge: "Trạng thái: Luôn là khí",
+        realGauge: "Trạng thái: NGƯNG TỤ CHẤT LỎNG",
+        pistonPos: 2,
+        tempLevel: "low",
+        mode: "condensation"
+      },
+      {
+        badge: "Cảnh 6/6: Trọng tâm đề thi THPT",
+        subtitle: "Ở nhiệt độ cao và áp suất thấp: Khí thực coi gần đúng là Khí lí tưởng",
+        narration: "6. Trọng tâm cốt lõi thi THPT: Ở NHIỆT ĐỘ CAO VÀ ÁP SUẤT THẤP, các phân tử khí thực ở rất xa nhau và bay cực nhanh, nên KHÍ THỰC ĐƯỢC COI GẦN ĐÚNG LÀ KHÍ LÍ TƯỞNG!",
+        idealTag: "Mô hình chuẩn",
+        realTag: "Khí thực tiệm cận lí tưởng",
+        idealDesc: "• Mô hình đơn giản hóa giúp tính toán chính xác trong bài toán nhiệt học.<br>• Áp dụng chuẩn cho các định luật Boyle, Charles, Clapeyron.",
+        realDesc: "• Khi <strong>T cao</strong> (hạt bay cực nhanh) và <strong>p thấp</strong> (thể tích rộng, hạt ở rất xa nhau):<br>• Lực hút Van der Waals và thể tích riêng không đáng kể => <strong>Hành xử như khí lí tưởng!</strong>",
+        idealGauge: "Chuẩn khí lí tưởng",
+        realGauge: "Tiệm cận lí tưởng: Z ≈ 1.00",
+        pistonPos: 0,
+        tempLevel: "high",
+        mode: "asymptotic"
+      }
+    ];
+
+    let currentScene = 0;
+    let isPlaying = false;
+    let playTimer = null;
+    let voiceEnabled = true;
+
+    // DOM Elements
+    const canvasIdeal = document.getElementById('canvasIdeal');
+    const canvasReal = document.getElementById('canvasReal');
+    const ctxIdeal = canvasIdeal.getContext('2d');
+    const ctxReal = canvasReal.getContext('2d');
+    const chapterBadge = document.getElementById('chapterBadge');
+    const chapterSubtitle = document.getElementById('chapterSubtitle');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const timelineProgress = document.getElementById('timelineProgress');
+    const idealGauge = document.getElementById('idealGauge');
+    const realGauge = document.getElementById('realGauge');
+    const idealTag = document.getElementById('idealTag');
+    const realTag = document.getElementById('realTag');
+    const idealCardDesc = document.getElementById('idealCardDesc');
+    const realCardDesc = document.getElementById('realCardDesc');
+    const subtitlesText = document.getElementById('subtitlesText');
+    const btnPlay = document.getElementById('btnPlay');
+    const playIcon = document.getElementById('playIcon');
+    const playLabel = document.getElementById('playLabel');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnVoiceToggle = document.getElementById('btnVoiceToggle');
+    const voiceIcon = document.getElementById('voiceIcon');
+    const voiceStatus = document.getElementById('voiceStatus');
+    const sceneTabs = document.querySelectorAll('.scene-tab');
+
+    // Resize Canvases
+    function resizeCanvases() {
+      const rectI = canvasIdeal.getBoundingClientRect();
+      const rectR = canvasReal.getBoundingClientRect();
+      canvasIdeal.width = rectI.width * (window.devicePixelRatio || 1);
+      canvasIdeal.height = rectI.height * (window.devicePixelRatio || 1);
+      canvasReal.width = rectR.width * (window.devicePixelRatio || 1);
+      canvasReal.height = rectR.height * (window.devicePixelRatio || 1);
+    }
+    window.addEventListener('resize', resizeCanvases);
+    setTimeout(resizeCanvases, 100);
+
+    // Particle Systems
+    const NUM_PARTICLES = 32;
+    let particlesIdeal = [];
+    let particlesReal = [];
+
+    function initParticles() {
+      particlesIdeal = [];
+      particlesReal = [];
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        particlesIdeal.push({
+          x: Math.random() * 260 + 20,
+          y: Math.random() * 120 + 50,
+          vx: (Math.random() - 0.5) * 3,
+          vy: (Math.random() - 0.5) * 3
+        });
+        particlesReal.push({
+          x: Math.random() * 260 + 20,
+          y: Math.random() * 120 + 50,
+          vx: (Math.random() - 0.5) * 3,
+          vy: (Math.random() - 0.5) * 3
+        });
+      }
+    }
+    initParticles();
+
+    // Voice Synthesis
+    function speakText(text) {
+      if (!voiceEnabled || !('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      utterance.rate = 1.05;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Set Scene
+    function setScene(index) {
+      currentScene = Math.max(0, Math.min(index, scenes.length - 1));
+      const s = scenes[currentScene];
+
+      chapterBadge.innerText = s.badge;
+      chapterSubtitle.innerText = s.subtitle;
+      idealGauge.innerText = s.idealGauge;
+      realGauge.innerText = s.realGauge;
+      idealTag.innerText = s.idealTag;
+      realTag.innerText = s.realTag;
+      idealCardDesc.innerHTML = s.idealDesc;
+      realCardDesc.innerHTML = s.realDesc;
+      subtitlesText.innerText = s.narration;
+
+      const pct = ((currentScene + 1) / scenes.length) * 100;
+      timelineProgress.style.width = pct + '%';
+      const sec = (currentScene + 1) * 15;
+      timeDisplay.innerText = `00:${String(sec).padStart(2, '0')} / 01:30`;
+
+      // Cập nhật giao diện nút Tab
+      sceneTabs.forEach((tab, idx) => {
+        if (idx === currentScene) {
+          tab.classList.add('tab-active');
+        } else {
+          tab.classList.remove('tab-active');
+        }
+      });
+
+      if (isPlaying) {
+        speakText(s.narration);
+      }
+    }
+
+    // Toggle Play / Pause
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playIcon.innerText = '⏸';
+        playLabel.innerText = 'Tạm dừng';
+        speakText(scenes[currentScene].narration);
+        startPlayTimer();
+      } else {
+        playIcon.innerText = '▶';
+        playLabel.innerText = 'Phát tiếp';
+        window.speechSynthesis.cancel();
+        clearTimeout(playTimer);
+      }
+    }
+
+    function startPlayTimer() {
+      clearTimeout(playTimer);
+      playTimer = setTimeout(() => {
+        if (!isPlaying) return;
+        if (currentScene < scenes.length - 1) {
+          setScene(currentScene + 1);
+          startPlayTimer();
+        } else {
+          isPlaying = false;
+          playIcon.innerText = '▶';
+          playLabel.innerText = 'Phát lại';
+        }
+      }, 14500);
+    }
+
+    // Listeners
+    btnPlay.addEventListener('click', togglePlay);
+    btnPrev.addEventListener('click', () => {
+      setScene(currentScene > 0 ? currentScene - 1 : scenes.length - 1);
+      if (isPlaying) startPlayTimer();
+    });
+    btnNext.addEventListener('click', () => {
+      setScene(currentScene < scenes.length - 1 ? currentScene + 1 : 0);
+      if (isPlaying) startPlayTimer();
+    });
+
+    sceneTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        setScene(parseInt(tab.getAttribute('data-scene')));
+        if (isPlaying) startPlayTimer();
+      });
+    });
+
+    btnVoiceToggle.addEventListener('click', () => {
+      voiceEnabled = !voiceEnabled;
+      if (voiceEnabled) {
+        voiceIcon.innerText = '🔊';
+        voiceStatus.innerText = 'Thuyết minh: BẬT';
+        if (isPlaying) speakText(scenes[currentScene].narration);
+      } else {
+        voiceIcon.innerText = '🔇';
+        voiceStatus.innerText = 'Thuyết minh: TẮT';
+        window.speechSynthesis.cancel();
+      }
+    });
+
+    document.getElementById('timelineBar').addEventListener('click', (e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      const idx = Math.min(5, Math.floor(ratio * scenes.length));
+      setScene(idx);
+      if (isPlaying) startPlayTimer();
+    });
+
+    // ==========================================
+    // BẮT SỰ KIỆN PHÍM TAB TRÊN BÀN PHÍM
+    // ==========================================
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault(); // Ngăn trình duyệt nhảy tiêu điểm mặc định
+        if (e.shiftKey) {
+          // Shift + Tab: Lùi về cảnh trước
+          setScene(currentScene > 0 ? currentScene - 1 : scenes.length - 1);
+        } else {
+          // Tab: Tiến tới cảnh tiếp theo (vòng tròn 1->2->3->4->5->6->1)
+          setScene(currentScene < scenes.length - 1 ? currentScene + 1 : 0);
+        }
+        if (isPlaying) startPlayTimer();
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setScene(currentScene < scenes.length - 1 ? currentScene + 1 : 0);
+        if (isPlaying) startPlayTimer();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setScene(currentScene > 0 ? currentScene - 1 : scenes.length - 1);
+        if (isPlaying) startPlayTimer();
+      }
+    });
+
+    // --- MÔ PHỎNG VẬT LÍ (CANVAS PHYSICS) ---
+    let currentPistonY = 20;
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const wI = canvasIdeal.width;
+      const hI = canvasIdeal.height;
+      const wR = canvasReal.width;
+      const hR = canvasReal.height;
+
+      if (!wI || !wR) return;
+
+      const scaleX = wI / 300;
+      const scaleY = hI / 200;
+
+      const s = scenes[currentScene];
+      let targetPiston = 25;
+      if (s.pistonPos === 1) targetPiston = 75;
+      if (s.pistonPos === 2) targetPiston = 125;
+
+      currentPistonY += (targetPiston - currentPistonY) * 0.05;
+
+      ctxIdeal.fillStyle = 'rgba(2, 6, 23, 0.45)';
+      ctxIdeal.fillRect(0, 0, wI, hI);
+
+      ctxReal.fillStyle = 'rgba(2, 6, 23, 0.45)';
+      ctxReal.fillRect(0, 0, wR, hR);
+
+      const py = currentPistonY * scaleY;
+
+      // Piston Khí lí tưởng
+      ctxIdeal.fillStyle = '#334155';
+      ctxIdeal.fillRect(10 * scaleX, py - 10 * scaleY, 280 * scaleX, 10 * scaleY);
+      ctxIdeal.fillStyle = '#64748b';
+      ctxIdeal.fillRect(145 * scaleX, 0, 10 * scaleX, py - 10 * scaleY);
+      ctxIdeal.strokeStyle = '#38bdf8';
+      ctxIdeal.lineWidth = 2 * scaleX;
+      ctxIdeal.strokeRect(10 * scaleX, py, 280 * scaleX, (190 - currentPistonY) * scaleY);
+
+      // Piston Khí thực
+      ctxReal.fillStyle = '#334155';
+      ctxReal.fillRect(10 * scaleX, py - 10 * scaleY, 280 * scaleX, 10 * scaleY);
+      ctxReal.fillStyle = '#64748b';
+      ctxReal.fillRect(145 * scaleX, 0, 10 * scaleX, py - 10 * scaleY);
+      ctxReal.strokeStyle = '#f43f5e';
+      ctxReal.lineWidth = 2 * scaleX;
+      ctxReal.strokeRect(10 * scaleX, py, 280 * scaleX, (190 - currentPistonY) * scaleY);
+
+      // Cảnh 6: Nhiệt độ cao
+      if (s.tempLevel === 'high') {
+        const gradI = ctxIdeal.createLinearGradient(0, hI - 25 * scaleY, 0, hI);
+        gradI.addColorStop(0, 'rgba(239, 68, 68, 0)');
+        gradI.addColorStop(1, 'rgba(239, 68, 68, 0.35)');
+        ctxIdeal.fillStyle = gradI;
+        ctxIdeal.fillRect(10 * scaleX, hI - 25 * scaleY, 280 * scaleX, 25 * scaleY);
+
+        const gradR = ctxReal.createLinearGradient(0, hR - 25 * scaleY, 0, hR);
+        gradR.addColorStop(0, 'rgba(239, 68, 68, 0)');
+        gradR.addColorStop(1, 'rgba(239, 68, 68, 0.35)');
+        ctxReal.fillStyle = gradR;
+        ctxReal.fillRect(10 * scaleX, hR - 25 * scaleY, 280 * scaleX, 25 * scaleY);
+
+        ctxIdeal.fillStyle = '#f87171';
+        ctxIdeal.font = `bold ${10 * scaleX}px sans-serif`;
+        ctxIdeal.fillText('🔥 Nhiệt độ T rất cao', 20 * scaleX, hI - 8 * scaleY);
+        ctxReal.fillStyle = '#f87171';
+        ctxReal.font = `bold ${10 * scaleX}px sans-serif`;
+        ctxReal.fillText('🔥 Nhiệt độ T rất cao', 20 * scaleX, hR - 8 * scaleY);
+      }
+
+      // 1. Khí lí tưởng
+      const speedMultI = (s.tempLevel === 'high') ? 1.8 : 1.0;
+      particlesIdeal.forEach(p => {
+        p.x += p.vx * speedMultI;
+        p.y += p.vy * speedMultI;
+
+        if (p.x < 15) { p.x = 15; p.vx = Math.abs(p.vx); }
+        if (p.x > 285) { p.x = 285; p.vx = -Math.abs(p.vx); }
+        if (p.y < currentPistonY + 5) { p.y = currentPistonY + 5; p.vy = Math.abs(p.vy); }
+        if (p.y > 185) { p.y = 185; p.vy = -Math.abs(p.vy); }
+
+        ctxIdeal.fillStyle = '#60a5fa';
+        ctxIdeal.beginPath();
+        const rI = (s.mode === 'size' ? 1.8 : 2.5) * scaleX;
+        ctxIdeal.arc(p.x * scaleX, p.y * scaleY, rI, 0, Math.PI * 2);
+        ctxIdeal.fill();
+      });
+
+      // 2. Khí thực
+      const isCondensing = (s.mode === 'condensation');
+      const isForceMode = (s.mode === 'force');
+      const speedMultR = (s.tempLevel === 'high') ? 1.8 : (isCondensing ? 0.35 : 1.0);
+
+      for (let i = 0; i < particlesReal.length; i++) {
+        let p = particlesReal[i];
+
+        if (isCondensing) {
+          p.vy += 0.08;
+          p.vx *= 0.94;
+          p.y += p.vy;
+          p.x += p.vx;
+          if (p.y > 175) { p.y = 175 + Math.random() * 8; p.vy = 0; }
+          if (p.x < 20) { p.x = 20; p.vx = Math.abs(p.vx); }
+          if (p.x > 280) { p.x = 280; p.vx = -Math.abs(p.vx); }
+        } else {
+          for (let j = i + 1; j < particlesReal.length; j++) {
+            let p2 = particlesReal[j];
+            let dx = p2.x - p.x;
+            let dy = p2.y - p.y;
+            let dist = Math.hypot(dx, dy);
+
+            if (dist < 45 && dist > 12) {
+              if (isForceMode) {
+                ctxReal.strokeStyle = `rgba(251, 191, 36, ${0.9 - dist / 50})`;
+                ctxReal.lineWidth = 1.5 * scaleX;
+                ctxReal.beginPath();
+                ctxReal.moveTo(p.x * scaleX, p.y * scaleY);
+                ctxReal.lineTo(p2.x * scaleX, p2.y * scaleY);
+                ctxReal.stroke();
+              }
+              if (s.tempLevel !== 'high') {
+                let f = 0.04 / dist;
+                p.vx += dx * f;
+                p.vy += dy * f;
+                p2.vx -= dx * f;
+                p2.vy -= dy * f;
+              }
+            }
+          }
+
+          p.x += p.vx * speedMultR;
+          p.y += p.vy * speedMultR;
+
+          if (p.x < 18) { p.x = 18; p.vx = Math.abs(p.vx); }
+          if (p.x > 282) { p.x = 282; p.vx = -Math.abs(p.vx); }
+          if (p.y < currentPistonY + 8) { p.y = currentPistonY + 8; p.vy = Math.abs(p.vy); }
+          if (p.y > 185) { p.y = 185; p.vy = -Math.abs(p.vy); }
+        }
+
+        const rR = (s.mode === 'size' ? 7.5 : 5.5) * scaleX;
+        ctxReal.fillStyle = isCondensing ? '#38bdf8' : '#fb7185';
+        ctxReal.beginPath();
+        ctxReal.arc(p.x * scaleX, p.y * scaleY, rR, 0, Math.PI * 2);
+        ctxReal.fill();
+
+        if (s.mode === 'size' || isForceMode) {
+          ctxReal.strokeStyle = 'rgba(244, 63, 94, 0.35)';
+          ctxReal.lineWidth = 1 * scaleX;
+          ctxReal.beginPath();
+          ctxReal.arc(p.x * scaleX, p.y * scaleY, rR * 1.7, 0, Math.PI * 2);
+          ctxReal.stroke();
+        }
+      }
+
+      if (isCondensing) {
+        ctxReal.fillStyle = 'rgba(56, 189, 248, 0.5)';
+        ctxReal.fillRect(10 * scaleX, 172 * scaleY, 280 * scaleX, 18 * scaleY);
+        ctxReal.fillStyle = '#bae6fd';
+        ctxReal.font = `bold ${10 * scaleX}px sans-serif`;
+        ctxReal.fillText('💧 Pha lỏng ngưng tụ ở đáy bình', 20 * scaleX, 184 * scaleY);
+      }
+    }
+
+    resizeCanvases();
+    setScene(0);
+    animate();
+  </script>
+</body>
+</html>

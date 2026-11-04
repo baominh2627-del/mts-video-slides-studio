@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "hook",
+    "badge": "🚨 CẢNH BÁO KHẨN CẤP",
+    "title": "DÀNH RIÊNG 2K9 - 2K10 - 2K11",
+    "duration": 7.422721088435374,
+    "text": "Cảnh báo học sinh 2k9, 2k10 và 2k11! Bạn đang bế tắc vì thiếu nguồn luyện đề chuẩn cấu trúc mới?",
+    "subtitles": [
+      "Cảnh báo học sinh 2K9, 2K10 và 2K11!",
+      "Bạn đang bế tắc vì thiếu đề chuẩn cấu trúc mới?"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_1_hook.wav"
+  },
+  {
+    "id": 2,
+    "name": "thpt",
+    "badge": "📚 KHO ĐỀ TN THPT 2025-2026",
+    "title": "TOÁN - LÝ - HÓA - ANH - SỬ",
+    "duration": 11.936167800453514,
+    "text": "Đã có MTSEducation! Kho đề thi thử tốt nghiệp THPT chuẩn 100%: Toán bứt phá, Vật lý trực quan, Hóa học chuyên sâu, cùng Tiếng Anh và Lịch Sử bám sát barem Bộ Giáo Dục!",
+    "subtitles": [
+      "Đã có MTSEducation - Cứu tinh của bạn!",
+      "Kho đề thi tốt nghiệp THPT chuẩn 100%:",
+      "Toán bứt phá - Vật lý trực quan - Hóa chuyên sâu!",
+      "Cùng Tiếng Anh & Lịch Sử bám sát barem mới!"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_2_thpt.wav"
+  },
+  {
+    "id": 3,
+    "name": "ky_thi_rieng",
+    "badge": "🚀 ĐỘT PHÁ KỲ THI RIÊNG",
+    "title": "HSA (ĐHQGHN) · TSA (BÁCH KHOA) · V-ACT",
+    "duration": 12.476303854875283,
+    "text": "Đột phá vào đại học top đầu cùng các kỳ thi riêng: Đánh giá năng lực HSA ĐHQG Hà Nội, Đánh giá tư duy TSA Bách Khoa và V-ACT! Tư duy định lượng, định tính đầy đủ mọi dạng bài!",
+    "subtitles": [
+      "Đột phá vào đại học top đầu cùng kỳ thi riêng!",
+      "ĐGNL HSA ĐHQGHN - ĐGTD TSA Bách Khoa - V-ACT!",
+      "Tư duy Định lượng & Định tính chuẩn thực chiến!"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_3_ky_thi_rieng.wav"
+  },
+  {
+    "id": 4,
+    "name": "thi_that",
+    "badge": "⚡ TRẢI NGHIỆM THI THỰC CHIẾN",
+    "title": "CHẤM ĐIỂM & GIẢI CHI TIẾT",
+    "duration": 7.774172335600907,
+    "text": "Phòng thi thực chiến bấm giờ chuẩn thi thật! Làm bài mượt mà, nộp bài có ngay kết quả kèm lời giải chi tiết từng bước giúp bạn hiểu bản chất!",
+    "subtitles": [
+      "Phòng thi online chuẩn bấm giờ thi thật!",
+      "Tích chọn đáp án nhanh, chống gian lận cực đỉnh!",
+      "Nộp bài chấm điểm ngay - Lời giải chi tiết 100%!"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_4_thi_that.wav"
+  },
+  {
+    "id": 5,
+    "name": "mien_phi",
+    "badge": "🎁 ƯU ĐÃI ĐẶC QUYỀN 0 ĐỒNG",
+    "title": "HOÀN TOÀN MIỄN PHÍ 100%",
+    "duration": 9.970430839002267,
+    "text": "Đặc biệt: Toàn bộ kho đề đỉnh cao này mở HOÀN TOÀN MIỄN PHÍ cho học sinh 2k11, 2k10, và đặc biệt là các sĩ tử 2k9 đang tăng tốc về đích!",
+    "subtitles": [
+      "ĐẶC BIỆT: MỞ HOÀN TOÀN MIỄN PHÍ 100%!",
+      "Dành riêng cho học sinh 2K11, 2K10...",
+      "Và ĐẶC BIỆT là các sĩ tử 2K9 đang về đích!"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_5_mien_phi.wav"
+  },
+  {
+    "id": 6,
+    "name": "cta",
+    "badge": "🔥 ĐĂNG KÝ NGAY HÔM NAY",
+    "title": "MTSEDU.VERCEL.APP · 0372 336 302",
+    "duration": 11.476167800453515,
+    "text": "Cơ hội vàng nâng điểm! Truy cập ngay website MTSEDU chấm VERCEL chấm APP hoặc liên hệ Zalo 0372 336 302 để nhận tài khoản VIP ngay hôm nay!",
+    "subtitles": [
+      "Cơ hội vàng nâng band điểm cấp tốc!",
+      "Truy cập ngay: MTSEDU.VERCEL.APP",
+      "Hotline & Zalo: 0372 336 302 - Bắt đầu ngay!"
+    ],
+    "wav": "C:\\Users\\DELL\\Documents\\CODE\\DU_AN\\audio_build\\scene_6_cta.wav"
+  }
+]

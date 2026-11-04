@@ -1,0 +1,394 @@
+{
+  "total_duration": 190.2802947845805,
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "badge": "PHẦN 1: GIỚI THIỆU",
+      "lines": [
+        "Trong chương trình vật lý, phương trình trạng thái khí lý tưởng P nhân V bằng n R T đã trở nên vô cùng quen thuộc.",
+        "Mô hình này rất đẹp và đơn giản, nhưng lại dựa trên hai giả định hoàn hảo không có trong thực tế.",
+        "Một là: các phân tử được coi là chất điểm hình học, nghĩa là thể tích bản thân của chúng bằng không.",
+        "Hai là: hoàn toàn không có bất kỳ lực hút hay đẩy nào giữa các phân tử, ngoại trừ khi va chạm đàn hồi.",
+        "Nhưng ở điều kiện áp suất cao hoặc nhiệt độ thấp, khí thực bắt đầu bộc lộ sự sai lệch rất lớn so với lý thuyết!"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "lines": [
+        "Năm 1873, nhà vật lý Johannes van der Waals đã đưa ra hai hiệu chỉnh mang tính cách mạng.",
+        "Hiệu chỉnh thứ nhất xuất phát từ kích thước thật của phân tử khí.",
+        "Trong thực tế, mỗi phân tử là một quả cầu vật chất chiếm một thể tích không gian xác định.",
+        "Do đó, không gian tự do để các phân tử chuyển động không phải là toàn bộ thể tích V của bình chứa.",
+        "Một phần thể tích đã bị chính các phân tử khác chiếm chỗ và ngăn cản chuyển động.",
+        "Gọi b là thể tích chiếm chỗ hiệu dụng của một mol khí, thì thể tích tự do thực tế phải là V trừ đi n nhân b.",
+        "Đây chính là hiệu chỉnh thể tích đầu tiên trong phương trình!"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "lines": [
+        "Hiệu chỉnh thứ hai, cũng là điểm cốt lõi nhất, chính là lực hút tương tác giữa các phân tử.",
+        "Ở sâu bên trong lòng khối khí, mỗi phân tử bị các phân tử bao quanh hút đều về mọi hướng, khiến hợp lực bằng không.",
+        "Nhưng khi một phân tử bay đến gần sát thành bình, phía sau nó là một tập hợp các phân tử khác đang hút kéo nó lại.",
+        "Lực kéo giật lùi này làm giảm đáng kể vận tốc và động lượng khi phân tử va đập vào thành bình.",
+        "Kết quả là, áp suất thực tế P mà ta đo được luôn nhỏ hơn áp suất lý tưởng ban đầu!",
+        "Đại lượng sụt giảm này gọi là áp suất nội, tỷ lệ thuận với bình phương mật độ phân tử.",
+        "Van der Waals xác định lượng bù áp suất nội là a nhân n bình phương chia cho V bình phương.",
+        "Để có áp suất lý tưởng, ta phải cộng thêm lượng bù này vào áp suất thực tế!"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "lines": [
+        "Kết hợp cả hai hiệu chỉnh trên, ta có phương trình Van der Waals kinh điển cho khí thực.",
+        "Mở ngoặc P cộng a nhân n bình phương trên V bình phương đóng ngoặc, nhân với V trừ n b, bằng n R T.",
+        "Đối với một mol khí, phương trình được viết gọn lại là, P cộng a trên V m bình phương, nhân với V m trừ b, bằng R T.",
+        "Hằng số a phản ánh độ mạnh của tương tác.",
+        "Còn hằng số b biểu thị độ lớn thể tích riêng của chúng.",
+        "Ví dụ, Khí Helium có phân tử siêu nhỏ nên a và b rất bé, gần như là khí lý tưởng.",
+        "Ngược lại, khí cacbon dioxit và hơi nước có phân tử lớn và lực hút mạnh nên a và b rất cao."
+      ]
+    },
+    {
+      "scene_id": 5,
+      "title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "lines": [
+        "Khi ở áp suất rất thấp hoặc nhiệt độ cao, thể tích V trở nên rất lớn so với n b.",
+        "Lúc này, các số hạng hiệu chỉnh triệt tiêu và phương trình Van der Waals quay về định luật khí lý tưởng.",
+        "Đặc biệt, phương trình này còn mô tả chính xác hiện tượng hóa lỏng và dự đoán nhiệt độ tới hạn của chất khí.",
+        "Thành tựu vĩ đại này đã mang về cho Van der Waals giải Nobel Vật lý danh giá vào năm 1910.",
+        "Cảm ơn các bạn đã theo dõi! Hãy nhấn Like và Đăng ký kênh MTSEducation để đón xem thêm nhiều bài học khoa học thú vị nhé!"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "clip_id": 0,
+      "scene_id": 1,
+      "scene_title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "scene_badge": "PHẦN 1: GIỚI THIỆU",
+      "text": "Trong chương trình vật lý, phương trình trạng thái khí lý tưởng P nhân V bằng n R T đã trở nên vô cùng quen thuộc.",
+      "start": 0.0,
+      "end": 6.912018140589569,
+      "duration": 6.912018140589569
+    },
+    {
+      "clip_id": 1,
+      "scene_id": 1,
+      "scene_title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "scene_badge": "PHẦN 1: GIỚI THIỆU",
+      "text": "Mô hình này rất đẹp và đơn giản, nhưng lại dựa trên hai giả định hoàn hảo không có trong thực tế.",
+      "start": 7.132018140589569,
+      "end": 12.868027210884353,
+      "duration": 5.736009070294784
+    },
+    {
+      "clip_id": 2,
+      "scene_id": 1,
+      "scene_title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "scene_badge": "PHẦN 1: GIỚI THIỆU",
+      "text": "Một là: các phân tử được coi là chất điểm hình học, nghĩa là thể tích bản thân của chúng bằng không.",
+      "start": 13.088027210884354,
+      "end": 18.920045351473924,
+      "duration": 5.832018140589569
+    },
+    {
+      "clip_id": 3,
+      "scene_id": 1,
+      "scene_title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "scene_badge": "PHẦN 1: GIỚI THIỆU",
+      "text": "Hai là: hoàn toàn không có bất kỳ lực hút hay đẩy nào giữa các phân tử, ngoại trừ khi va chạm đàn hồi.",
+      "start": 19.140045351473923,
+      "end": 25.356054421768707,
+      "duration": 6.216009070294785
+    },
+    {
+      "clip_id": 4,
+      "scene_id": 1,
+      "scene_title": "GIỚI THIỆU & MÔ HÌNH KHÍ LÝ TƯỞNG",
+      "scene_badge": "PHẦN 1: GIỚI THIỆU",
+      "text": "Nhưng ở điều kiện áp suất cao hoặc nhiệt độ thấp, khí thực bắt đầu bộc lộ sự sai lệch rất lớn so với lý thuyết!",
+      "start": 25.576054421768706,
+      "end": 31.7440589569161,
+      "duration": 6.168004535147392
+    },
+    {
+      "clip_id": 5,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Năm 1873, nhà vật lý Johannes van der Waals đã đưa ra hai hiệu chỉnh mang tính cách mạng.",
+      "start": 31.964058956916098,
+      "end": 38.46807256235827,
+      "duration": 6.504013605442177
+    },
+    {
+      "clip_id": 6,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Hiệu chỉnh thứ nhất xuất phát từ kích thước thật của phân tử khí.",
+      "start": 38.68807256235827,
+      "end": 42.57607709750567,
+      "duration": 3.888004535147392
+    },
+    {
+      "clip_id": 7,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Trong thực tế, mỗi phân tử là một quả cầu vật chất chiếm một thể tích không gian xác định.",
+      "start": 42.796077097505666,
+      "end": 48.100090702947846,
+      "duration": 5.304013605442177
+    },
+    {
+      "clip_id": 8,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Do đó, không gian tự do để các phân tử chuyển động không phải là toàn bộ thể tích V của bình chứa.",
+      "start": 48.320090702947844,
+      "end": 54.176099773242626,
+      "duration": 5.8560090702947845
+    },
+    {
+      "clip_id": 9,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Một phần thể tích đã bị chính các phân tử khác chiếm chỗ và ngăn cản chuyển động.",
+      "start": 54.396099773242625,
+      "end": 59.17210884353741,
+      "duration": 4.776009070294784
+    },
+    {
+      "clip_id": 10,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Gọi b là thể tích chiếm chỗ hiệu dụng của một mol khí, thì thể tích tự do thực tế phải là V trừ đi n nhân b.",
+      "start": 59.39210884353741,
+      "end": 66.18412698412698,
+      "duration": 6.792018140589569
+    },
+    {
+      "clip_id": 11,
+      "scene_id": 2,
+      "scene_title": "HIỆU CHỈNH THỂ TÍCH RIÊNG (HẰNG SỐ b)",
+      "scene_badge": "PHẦN 2: THỂ TÍCH RIÊNG",
+      "text": "Đây chính là hiệu chỉnh thể tích đầu tiên trong phương trình!",
+      "start": 66.40412698412698,
+      "end": 69.98013605442176,
+      "duration": 3.5760090702947847
+    },
+    {
+      "clip_id": 12,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Hiệu chỉnh thứ hai, cũng là điểm cốt lõi nhất, chính là lực hút tương tác giữa các phân tử.",
+      "start": 70.20013605442176,
+      "end": 75.69614512471655,
+      "duration": 5.496009070294784
+    },
+    {
+      "clip_id": 13,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Ở sâu bên trong lòng khối khí, mỗi phân tử bị các phân tử bao quanh hút đều về mọi hướng, khiến hợp lực bằng không.",
+      "start": 75.91614512471655,
+      "end": 82.70816326530613,
+      "duration": 6.792018140589569
+    },
+    {
+      "clip_id": 14,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Nhưng khi một phân tử bay đến gần sát thành bình, phía sau nó là một tập hợp các phân tử khác đang hút kéo nó lại.",
+      "start": 82.92816326530613,
+      "end": 89.45616780045351,
+      "duration": 6.528004535147392
+    },
+    {
+      "clip_id": 15,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Lực kéo giật lùi này làm giảm đáng kể vận tốc và động lượng khi phân tử va đập vào thành bình.",
+      "start": 89.67616780045351,
+      "end": 93.51616780045352,
+      "duration": 3.84
+    },
+    {
+      "clip_id": 16,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Kết quả là, áp suất thực tế P mà ta đo được luôn nhỏ hơn áp suất lý tưởng ban đầu!",
+      "start": 93.73616780045352,
+      "end": 99.0641723356009,
+      "duration": 5.328004535147392
+    },
+    {
+      "clip_id": 17,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Đại lượng sụt giảm này gọi là áp suất nội, tỷ lệ thuận với bình phương mật độ phân tử.",
+      "start": 99.2841723356009,
+      "end": 104.4921768707483,
+      "duration": 5.208004535147392
+    },
+    {
+      "clip_id": 18,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Van der Waals xác định lượng bù áp suất nội là a nhân n bình phương chia cho V bình phương.",
+      "start": 104.7121768707483,
+      "end": 110.30419501133787,
+      "duration": 5.592018140589569
+    },
+    {
+      "clip_id": 19,
+      "scene_id": 3,
+      "scene_title": "HIỆU CHỈNH ÁP SUẤT TƯƠNG TÁC (HẰNG SỐ a)",
+      "scene_badge": "PHẦN 3: LỰC TƯƠNG TÁC",
+      "text": "Để có áp suất lý tưởng, ta phải cộng thêm lượng bù này vào áp suất thực tế!",
+      "start": 110.52419501133787,
+      "end": 115.27621315192744,
+      "duration": 4.752018140589569
+    },
+    {
+      "clip_id": 20,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Kết hợp cả hai hiệu chỉnh trên, ta có phương trình Van der Waals kinh điển cho khí thực.",
+      "start": 115.49621315192744,
+      "end": 120.53621315192744,
+      "duration": 5.04
+    },
+    {
+      "clip_id": 21,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Mở ngoặc P cộng a nhân n bình phương trên V bình phương đóng ngoặc, nhân với V trừ n b, bằng n R T.",
+      "start": 120.75621315192744,
+      "end": 128.36421768707484,
+      "duration": 7.608004535147392
+    },
+    {
+      "clip_id": 22,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Đối với một mol khí, phương trình được viết gọn lại là, P cộng a trên V m bình phương, nhân với V m trừ b, bằng R T.",
+      "start": 128.58421768707484,
+      "end": 137.15222222222224,
+      "duration": 8.568004535147391
+    },
+    {
+      "clip_id": 23,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Hằng số a phản ánh độ mạnh của tương tác.",
+      "start": 137.37222222222223,
+      "end": 140.46823129251703,
+      "duration": 3.0960090702947847
+    },
+    {
+      "clip_id": 24,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Còn hằng số b biểu thị độ lớn thể tích riêng của chúng.",
+      "start": 140.68823129251703,
+      "end": 144.3122448979592,
+      "duration": 3.624013605442177
+    },
+    {
+      "clip_id": 25,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Ví dụ, Khí Helium có phân tử siêu nhỏ nên a và b rất bé, gần như là khí lý tưởng.",
+      "start": 144.5322448979592,
+      "end": 150.7002494331066,
+      "duration": 6.168004535147392
+    },
+    {
+      "clip_id": 26,
+      "scene_id": 4,
+      "scene_title": "PHƯƠNG TRÌNH HOÀN CHỈNH & Ý NGHĨA",
+      "scene_badge": "PHẦN 4: PHƯƠNG TRÌNH KINH ĐIỂN",
+      "text": "Ngược lại, khí cacbon dioxit và hơi nước có phân tử lớn và lực hút mạnh nên a và b rất cao.",
+      "start": 150.9202494331066,
+      "end": 157.18426303854878,
+      "duration": 6.264013605442177
+    },
+    {
+      "clip_id": 27,
+      "scene_id": 5,
+      "scene_title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "scene_badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "text": "Khi ở áp suất rất thấp hoặc nhiệt độ cao, thể tích V trở nên rất lớn so với n b.",
+      "start": 157.40426303854878,
+      "end": 163.04426303854876,
+      "duration": 5.64
+    },
+    {
+      "clip_id": 28,
+      "scene_id": 5,
+      "scene_title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "scene_badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "text": "Lúc này, các số hạng hiệu chỉnh triệt tiêu và phương trình Van der Waals quay về định luật khí lý tưởng.",
+      "start": 163.26426303854876,
+      "end": 169.09628117913834,
+      "duration": 5.832018140589569
+    },
+    {
+      "clip_id": 29,
+      "scene_id": 5,
+      "scene_title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "scene_badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "text": "Đặc biệt, phương trình này còn mô tả chính xác hiện tượng hóa lỏng và dự đoán nhiệt độ tới hạn của chất khí.",
+      "start": 169.31628117913834,
+      "end": 175.41229024943314,
+      "duration": 6.096009070294785
+    },
+    {
+      "clip_id": 30,
+      "scene_id": 5,
+      "scene_title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "scene_badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "text": "Thành tựu vĩ đại này đã mang về cho Van der Waals giải Nobel Vật lý danh giá vào năm 1910.",
+      "start": 175.63229024943314,
+      "end": 181.80029478458053,
+      "duration": 6.168004535147392
+    },
+    {
+      "clip_id": 31,
+      "scene_id": 5,
+      "scene_title": "ĐƯỜNG ĐẲNG NHIỆT & KẾT LUẬN",
+      "scene_badge": "PHẦN 5: ĐẲNG NHIỆT & TỚI HẠN",
+      "text": "Cảm ơn các bạn đã theo dõi! Hãy nhấn Like và Đăng ký kênh MTSEducation để đón xem thêm nhiều bài học khoa học thú vị nhé!",
+      "start": 182.02029478458053,
+      "end": 190.06029478458052,
+      "duration": 8.04
+    }
+  ]
+}

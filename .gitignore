@@ -1,0 +1,10 @@
+# Nested independent Git repository (already pushed to baominh2627-del/free-music)
+FREE_MUSIC/
+
+# Python cache & logs
+__pycache__/
+*.py[cod]
+*.log
+
+# Large uncompressed WAV files (keep MP3s, JSON timelines, PDFs, images, and scripts)
+*.wav
