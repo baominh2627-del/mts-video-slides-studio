@@ -15,9 +15,11 @@ const db = getFirestore(app);
 
 const $ = (s) => document.querySelector(s);
 let posts = [];
+let templates = { toan: "", ly: "", hoa: "" };
 let currentTab = "new";
 let focusId = new URLSearchParams(location.search).get("id");
 let unsub = null;
+let unsubTpls = null;
 let swReg = null;
 
 // ---------------------------------------------------------------- tiện ích
@@ -27,6 +29,23 @@ function toast(msg, ms = 2500) {
   t.classList.remove("hidden");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => t.classList.add("hidden"), ms);
+}
+
+async function copyText(txt, okMsg = "📋 Đã sao chép!") {
+  if (!txt || !txt.trim()) return toast("Chưa có nội dung để sao chép");
+  try {
+    await navigator.clipboard.writeText(txt);
+    toast(okMsg);
+  } catch {
+    toast("Không copy tự động được, hãy bôi đen copy tay");
+  }
+}
+
+function guessTemplateByReason(reason = "") {
+  if (reason.includes("Toán") && templates.toan) return templates.toan;
+  if (reason.includes("Lý") && templates.ly) return templates.ly;
+  if (reason.includes("Hóa") && templates.hoa) return templates.hoa;
+  return templates.toan || templates.ly || templates.hoa || "";
 }
 
 function timeAgo(date) {
@@ -58,6 +77,7 @@ $("#btn-logout").onclick = () => signOut(auth);
 
 onAuthStateChanged(auth, async (user) => {
   if (unsub) { unsub(); unsub = null; }
+  if (unsubTpls) { unsubTpls(); unsubTpls = null; }
   if (!user) {
     $("#login").classList.remove("hidden");
     $("#main").classList.add("hidden");
@@ -71,11 +91,46 @@ onAuthStateChanged(auth, async (user) => {
   $("#login").classList.add("hidden");
   $("#main").classList.remove("hidden");
   if (isIOS && !isStandalone) $("#ios-hint").classList.remove("hidden");
+  listenTemplates();
   listenPosts();
   initPush(false);
 });
 
-// ---------------------------------------------------------------- dữ liệu
+// ---------------------------------------------------------------- mẫu bình luận nhanh
+function listenTemplates() {
+  unsubTpls = onSnapshot(doc(db, "settings", "templates"), (snap) => {
+    if (snap.exists()) {
+      const d = snap.data();
+      templates = { toan: d.toan || "", ly: d.ly || "", hoa: d.hoa || "" };
+      if (document.activeElement !== $("#tpl-toan")) $("#tpl-toan").value = templates.toan;
+      if (document.activeElement !== $("#tpl-ly")) $("#tpl-ly").value = templates.ly;
+      if (document.activeElement !== $("#tpl-hoa")) $("#tpl-hoa").value = templates.hoa;
+      render();
+    }
+  });
+}
+
+document.querySelectorAll("[data-copy-tpl]").forEach((btn) => {
+  btn.onclick = () => {
+    const k = btn.dataset.copyTpl;
+    const label = { toan: "Toán", ly: "Lý", hoa: "Hóa" }[k] || k;
+    const val = $(`#tpl-${k}`).value;
+    copyText(val, `📋 Đã sao chép mẫu môn ${label}!`);
+  };
+});
+
+$("#btn-save-tpls").onclick = async () => {
+  const data = {
+    toan: $("#tpl-toan").value.trim(),
+    ly: $("#tpl-ly").value.trim(),
+    hoa: $("#tpl-hoa").value.trim(),
+    updatedAt: serverTimestamp(),
+  };
+  await setDoc(doc(db, "settings", "templates"), data, { merge: true });
+  toast("✅ Đã lưu mẫu bình luận!");
+};
+
+// ---------------------------------------------------------------- dữ liệu bài viết
 function listenPosts() {
   const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(200));
   let first = true;
@@ -127,18 +182,26 @@ function render() {
       more.onclick = () => { text.classList.toggle("clamp"); more.textContent = text.classList.contains("clamp") ? "Xem thêm" : "Thu gọn"; };
     }
     const ta = el.querySelector(".comment");
-    if (p.comment) {
-      el.querySelector(".comment-box").classList.remove("hidden");
-      ta.value = p.comment;
-    }
+    ta.value = p.comment || guessTemplateByReason(p.reason);
+
+    el.querySelectorAll("[data-pick]").forEach((chip) => {
+      chip.onclick = () => {
+        const k = chip.dataset.pick;
+        const label = { toan: "Toán", ly: "Lý", hoa: "Hóa" }[k] || k;
+        const val = $(`#tpl-${k}`)?.value || templates[k] || "";
+        if (val) {
+          ta.value = val;
+          copyText(val, `📋 Đã đổi & copy mẫu ${label}!`);
+        }
+      };
+    });
 
     el.querySelector(".act-open").onclick = async () => {
       if (ta.value.trim()) {
-        try { await navigator.clipboard.writeText(ta.value); toast("Đã copy bình luận — dán vào Facebook nhé"); }
-        catch { toast("Không copy được, hãy copy tay"); }
+        await copyText(ta.value, "📋 Đã copy bình luận — dán vào Facebook nhé!");
       }
       if (p.link) window.open(p.link, "_blank", "noopener");
-      else toast("Bài này không có link, mở email thông báo trong Gmail");
+      else toast("Bài này không có link trực tiếp");
     };
     el.querySelector(".act-done").onclick = () => setStatus(p.id, "done");
     el.querySelector(".act-skip").onclick = () => setStatus(p.id, "skip");
@@ -191,7 +254,6 @@ async function initPush(askPermission) {
     btn.classList.add("on");
     btn.onclick = () => toast("Thiết bị này đã nhận thông báo");
 
-    // app đang mở: hiện thông báo trong app + thông báo hệ thống
     onMessage(messaging, (payload) => {
       const n = payload.notification || {};
       toast(n.title || "Có bài mới");
@@ -205,7 +267,6 @@ async function initPush(askPermission) {
   }
 }
 
-// bấm thông báo khi app đang mở
 navigator.serviceWorker?.addEventListener("message", (e) => {
   if (e.data?.type === "open-post" && e.data.postId) {
     focusId = e.data.postId;

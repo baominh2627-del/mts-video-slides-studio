@@ -25,14 +25,16 @@
       "tìm thầy", "tìm cô", "cần thầy", "cần cô", "tìm người dạy", "cần người dạy",
       "tìm giáo viên", "cần giáo viên", "tìm người kèm", "cần người kèm"
     ],
-    "mon_hoc": ["toán", "lý", "lí", "vật lý", "vật lí", "hóa", "hoá", "hóa học", "hoá học"],
+    "mon_hoc": ["toán", "đại số", "hình học", "giải tích", "lý", "lí", "vật lý", "vật lí", "hóa", "hoá", "hóa học", "hoá học", "khối a", "khối a00", "khối a01"],
     "lop": [10, 11, 12],
     "tu_loai_tru": [
       "kèm 1:1", "kèm 1-1", "kèm 1 1", "1 kèm 1", "1:1", "1-1",
       "offline", "off", "học off", "dạy off", "trực tiếp",
-      "dạy ở nhà", "học ở nhà", "dạy tại nhà", "học tại nhà", "tại nhà", "đến nhà", "tới nhà",
-      "nhận dạy", "nhận kèm", "tuyển gia sư", "tuyển giáo viên", "tuyển gs",
-      "đã tìm được", "đã có gia sư", "đã nhận"
+      "dạy ở nhà", "học ở nhà", "dạy tại nhà", "học tại nhà", "tại nhà", "đến nhà", "tới nhà", "qua nhà",
+      "tiểu học", "cấp 1", "cấp 2", "thcs", "mầm non",
+      "nhận dạy", "nhận kèm", "nhận lớp", "nhận gia sư", "nhận thêm học", "em nhận", "mình nhận", "anh nhận", "chị nhận", "thầy nhận", "cô nhận",
+      "trung tâm tuyển", "tuyển trợ giảng", "tuyển ctv", "khai giảng",
+      "đã tìm được", "đã có gia sư"
     ],
     "cum_de_nham": [
       "toàn bộ", "hoàn toàn", "an toàn", "toàn diện", "toàn quốc", "toàn thể", "toàn tâm",
@@ -46,6 +48,14 @@
     "gemini_api_key": "DIEN_GEMINI_API_KEY",
     "model": "gemini-2.5-flash"
   },
+
+  "mau_theo_mon": {
+    "toan": "Ib anh zalo: 0xxx xxx xxx\nMẫu bình luận môn Toán...",
+    "ly": "*Ib anh zalo: 0xxx xxx xxx\nMẫu bình luận môn Lý...",
+    "hoa": "Ib anh zalo: 0xxx xxx xxx\nMẫu bình luận môn Hóa..."
+  },
+
+  "mau_binh_luan_mac_dinh": "*Ib anh zalo: 0xxx xxx xxx\n*Học thử MIỄN PHÍ\nLộ trình rõ ràng kèm từ mất gốc lên nâng cao nha",
 
   "ho_so_gia_su": "Tên: ...\nĐiểm thi ĐH: ...\nThành tích: ...\nMôn/lớp nhận dạy: Toán, Lý, Hóa 10-12\nHình thức: online\nHọc phí: ...k/buổi\nHọc thử: miễn phí 1 buổi\nZalo: 0xxx xxx xxx"
 }

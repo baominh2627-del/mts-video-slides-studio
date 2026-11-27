@@ -44,6 +44,37 @@
 
     <main id="list"></main>
     <p id="empty" class="muted center-text hidden">Chưa có bài nào ở mục này.</p>
+
+    <!-- Kho mẫu bình luận nhanh ngay bên dưới -->
+    <section class="templates-section">
+      <div class="templates-head">
+        <h2>📌 Mẫu bình luận nhanh (bấm là sao chép)</h2>
+        <button id="btn-save-tpls" class="btn small ghost" title="Lưu lại nếu bạn sửa nội dung bên dưới">💾 Lưu chỉnh sửa</button>
+      </div>
+      <div class="tpl-grid">
+        <div class="tpl-card">
+          <div class="tpl-top">
+            <strong>📘 Môn Toán</strong>
+            <button data-copy-tpl="toan" class="btn small primary">📋 Copy Toán</button>
+          </div>
+          <textarea id="tpl-toan" rows="6"></textarea>
+        </div>
+        <div class="tpl-card">
+          <div class="tpl-top">
+            <strong>⚡ Môn Lý</strong>
+            <button data-copy-tpl="ly" class="btn small primary">📋 Copy Lý</button>
+          </div>
+          <textarea id="tpl-ly" rows="6"></textarea>
+        </div>
+        <div class="tpl-card">
+          <div class="tpl-top">
+            <strong>🧪 Môn Hóa</strong>
+            <button data-copy-tpl="hoa" class="btn small primary">📋 Copy Hóa</button>
+          </div>
+          <textarea id="tpl-hoa" rows="6"></textarea>
+        </div>
+      </div>
+    </section>
   </section>
 
   <div id="toast" class="toast hidden"></div>
@@ -57,9 +88,16 @@
       <div class="subject muted"></div>
       <div class="text"></div>
       <button class="more link-btn hidden">Xem thêm</button>
-      <div class="comment-box hidden">
-        <div class="comment-label">💬 Bình luận gợi ý (sửa được):</div>
-        <textarea class="comment" rows="4"></textarea>
+      <div class="comment-box">
+        <div class="comment-head">
+          <span class="comment-label">💬 Bình luận (bấm chọn môn để đổi &amp; copy nhanh):</span>
+          <div class="tpl-chips">
+            <button type="button" data-pick="toan" class="chip">📘 Toán</button>
+            <button type="button" data-pick="ly" class="chip">⚡ Lý</button>
+            <button type="button" data-pick="hoa" class="chip">🧪 Hóa</button>
+          </div>
+        </div>
+        <textarea class="comment" rows="5"></textarea>
       </div>
       <div class="actions">
         <button class="btn primary act-open">📋 Copy &amp; mở bài</button>

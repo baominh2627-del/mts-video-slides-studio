@@ -23,6 +23,7 @@ import imaplib
 import json
 import re
 import sys
+import threading
 import time
 import unicodedata
 import urllib.parse
@@ -30,21 +31,51 @@ import urllib.request
 from datetime import datetime, timedelta
 from email.policy import default as default_policy
 from html.parser import HTMLParser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = BASE_DIR / "config.json"
 SEEN_PATH = BASE_DIR / "seen.json"
+LOG_PATH = BASE_DIR / "radar.log"
+LOCK_PATH = BASE_DIR / "radar.lock"
+_lock_fh = None
+_seen_lock = threading.Lock()
 
 try:
-    sys.stdout.reconfigure(encoding="utf-8")
+    if sys.stdout:
+        sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
     pass
 
 
 # ----------------------------------------------------------------- tiện ích
 def log(msg):
-    print(f"[{datetime.now():%H:%M:%S}] {msg}", flush=True)
+    line = f"[{datetime.now():%Y-%m-%d %H:%M:%S}] {msg}"
+    if sys.stdout:
+        print(line, flush=True)
+    try:
+        if LOG_PATH.exists() and LOG_PATH.stat().st_size > 512_000:
+            LOG_PATH.replace(BASE_DIR / "radar.log.old")
+        with LOG_PATH.open("a", encoding="utf-8") as f:
+            f.write(line + "\n")
+    except Exception:
+        pass
+
+
+def giu_khoa_duy_nhat():
+    """Đảm bảo chỉ có 1 tiến trình radar.py chạy ngầm tại một thời điểm."""
+    global _lock_fh
+    try:
+        import msvcrt
+        _lock_fh = LOCK_PATH.open("a+b")
+        _lock_fh.seek(0)
+        msvcrt.locking(_lock_fh.fileno(), msvcrt.LK_NBLCK, 1)
+        return True
+    except OSError:
+        return False
+    except ImportError:
+        return True
 
 
 def bo_dau(text):
@@ -141,43 +172,100 @@ def doc_email(msg):
 
 
 def chon_link_bai(links):
-    """Ưu tiên link dẫn tới bài viết trong group."""
+    """Trích xuất link trực tiếp dẫn tới đúng bài viết Facebook từ các link trong email."""
     def decoded(u):
-        return urllib.parse.unquote(urllib.parse.unquote(u))
+        return html_unescape(urllib.parse.unquote(urllib.parse.unquote(u)))
+
+    def html_unescape(s):
+        return s.replace("&amp;", "&")
+
+    # 1) Ưu tiên rút trích link sạch thẳng tới bài viết (không lo hết hạn token email)
     for u in links:
         d = decoded(u)
-        if "facebook.com" in d and "groups" in d and ("posts" in d or "permalink" in d or "multi_permalinks" in d):
-            return u
+        if "facebook.com" not in d:
+            continue
+        m = re.search(r"groups/([^/?&#]+)/(?:posts|permalink)/(\d+)", d)
+        if m:
+            return f"https://www.facebook.com/groups/{m.group(1)}/posts/{m.group(2)}/"
+        m = re.search(r"groups/([^/?&#]+)/?[?&][^#]*multi_permalinks=(\d+)", d)
+        if m:
+            return f"https://www.facebook.com/groups/{m.group(1)}/posts/{m.group(2)}/"
+        m = re.search(r"share/p/([A-Za-z0-9]+)", d)
+        if m:
+            return f"https://www.facebook.com/share/p/{m.group(1)}/"
+        if "story_fbid=" in d:
+            sfb = re.search(r"story_fbid=([^&#\s\"']+)", d)
+            uid = re.search(r"[?&]id=([^&#\s\"']+)", d)
+            if sfb and uid:
+                return f"https://www.facebook.com/permalink.php?story_fbid={sfb.group(1)}&id={uid.group(1)}"
+
+    # 2) Fallback: link group nhưng bỏ qua link trang cá nhân / cài đặt thông báo
+    bad_parts = ("/user/", "actor_profile", "profile_link", "notification_settings", "unsubscribe")
     for u in links:
         d = decoded(u)
-        if "facebook.com" in d and "groups" in d:
-            return u
-    for u in links:
-        if "facebook.com" in u:
-            return u
+        if "facebook.com" in d and "groups" in d and not any(b in d for b in bad_parts):
+            return html_unescape(u)
     return None
 
 
 # ------------------------------------------------------------------- bộ lọc
-def danh_gia_bai(text, cfg):
+def tach_ten_nhom(subject):
+    """Tách tên nhóm khỏi tiêu đề ('A đã đăng trong NHÓM X', 'Bây giờ trong NHÓM X')."""
+    s_low = subject.lower()
+    for sep in (
+        " đã đăng trong ", " đã chia sẻ một bài viết trong ", " vừa đăng trong ",
+        "bây giờ trong ", "mới trong ", "nổi bật trong ", "hoạt động mới trong ",
+        " posted in ", " shared a post in ",
+    ):
+        idx = s_low.find(sep)
+        if idx != -1:
+            return subject[idx + len(sep):].strip().rstrip(".:")
+    m = re.match(r"^\[([^\]]+)\]", subject.strip())
+    return m.group(1).strip() if m else ""
+
+
+_NHU_CAU_RE = re.compile(
+    r"(?<![a-z0-9])(?:"
+    r"(?:tim|can|muon tim|kiem|tuyen)\b[^.!?\n]{0,28}?\b(?:gia su|gs|gsu|giao vien|gv|thay|co|"
+    r"nguoi day|nguoi kem|ban day|ban kem|sv day|sv kem|sinh vien day|sinh vien kem|anh chi day|anh chi kem|ac day|ac kem)"
+    r"|(?:co ai|ai nhan|anh chi nao|ban nao|thay co nao)\b[^.!?\n]{0,22}?\b(?:day|kem|gia su|gs)"
+    r"|(?:can kem|can hoc kem|muon hoc kem|pass lop|nhuong lop)"
+    r")(?![a-z0-9])"
+)
+
+_NAM_SINH_MAP = {
+    "2k8": 12, "2008": 12,
+    "2k9": 12, "2009": 12,
+    "2k10": 11, "2010": 11,
+    "2k11": 10, "2011": 10,
+    "2k12": 9, "2k13": 8, "2k14": 7, "2k15": 6, "2k16": 5, "2k17": 4, "2k18": 3,
+}
+
+
+def danh_gia_bai(text, cfg, subject=""):
     """Trả về (đạt?, lý do).
 
     Thứ tự:
-      1. Có từ loại trừ (offline, dạy ở nhà, kèm 1:1, nhận dạy...)  -> BỎ
-      2. Không có cụm nhu cầu (tìm gia sư, cần gs...)               -> BỎ
-      3. Không có môn cần tìm (toán, lý, hoá)                        -> BỎ
-      4. Có ghi lớp nhưng không phải lớp cho phép (10, 11, 12)       -> BỎ
-         Không ghi lớp                                              -> vẫn NHẬN
+      1. Có từ loại trừ (offline, dạy ở nhà, kèm 1:1, nhận dạy, cấp 1/2...) -> BỎ
+      2. Không có nhu cầu tìm người dạy / gia sư                            -> BỎ
+      3. Không có môn Toán / Lý / Hóa                                       -> BỎ
+      4. Có ghi lớp nhưng ngoài 10, 11, 12                                  -> BỎ
+         Không ghi lớp                                                      -> vẫn NHẬN
     """
     f = cfg["bo_loc"]
-    norm = bo_dau(text)
+    lines_raw = (text or "").splitlines()
+    if subject:
+        tn = bo_dau(tach_ten_nhom(subject)).strip()
+        if tn:
+            lines_raw = [ln for ln in lines_raw if bo_dau(ln).strip() != tn]
+    norm = bo_dau("\n".join(lines_raw))
 
     loai = co_tu_khoa(norm, f.get("tu_loai_tru", []))
     if loai:
         return False, f"có từ loại trừ: {', '.join(loai)}"
 
     nhu_cau = co_tu_khoa(norm, f.get("tu_nhu_cau", []))
-    if not nhu_cau:
+    if not nhu_cau and not _NHU_CAU_RE.search(norm):
         return False, "không phải bài tìm gia sư"
 
     # xoá các cụm dễ gây nhầm môn: "toàn bộ" -> "toan", "Thanh Hóa" -> "hoa", "lý do" -> "ly"...
@@ -190,16 +278,32 @@ def danh_gia_bai(text, cfg):
         return False, "không đúng môn"
     ten_mon = {}
     for m in mon:
-        goc = bo_dau(m).replace("vat ", "").replace(" hoc", "").replace("li", "ly")
-        ten_mon.setdefault(goc, {"toan": "Toán", "ly": "Lý", "hoa": "Hóa"}.get(goc, m.capitalize()))
+        goc = bo_dau(m)
+        if goc in ("dai so", "hinh hoc", "giai tich", "toan"):
+            ten_mon.setdefault("toan", "Toán")
+        elif goc in ("ly", "li", "vat ly", "vat li"):
+            ten_mon.setdefault("ly", "Lý")
+        elif goc in ("hoa", "hoa hoc"):
+            ten_mon.setdefault("hoa", "Hóa")
+        elif goc in ("khoi a", "khoi a00"):
+            for k, v in (("toan", "Toán"), ("ly", "Lý"), ("hoa", "Hóa")):
+                ten_mon.setdefault(k, v)
+        elif goc == "khoi a01":
+            for k, v in (("toan", "Toán"), ("ly", "Lý")):
+                ten_mon.setdefault(k, v)
+        else:
+            ten_mon.setdefault(goc, m.capitalize())
     ly_do = [f"Môn: {', '.join(ten_mon.values())}"]
 
     lop_cho_phep = {int(x) for x in f.get("lop", [])}
     if lop_cho_phep:
         tien_to = "|".join(re.escape(bo_dau(t)) for t in
-                           ["lớp", "lop", "khối", "l"] + f.get("mon_hoc", []))
+                           ["lớp", "lop", "khối", "k", "l"] + f.get("mon_hoc", []))
         lop_thay = {int(n) for n in re.findall(
             r"(?<![a-z0-9])(?:" + tien_to + r")\s*(\d{1,2})(?!\d)", norm_mon) if 1 <= int(n) <= 12}
+        for ns, lop_qd in _NAM_SINH_MAP.items():
+            if re.search(r"(?<![a-z0-9])" + re.escape(ns) + r"(?![a-z0-9])", norm_mon):
+                lop_thay.add(lop_qd)
         if lop_thay:
             hop_le = sorted(lop_thay & lop_cho_phep)
             if not hop_le:
@@ -212,11 +316,23 @@ def danh_gia_bai(text, cfg):
 
 
 # --------------------------------------------------------------- AI soạn bình luận
-def soan_binh_luan(text, cfg):
+def chon_mau_theo_mon(ly_do, cfg):
+    theo_mon = cfg.get("mau_theo_mon", {})
+    if "Toán" in (ly_do or "") and theo_mon.get("toan"):
+        return theo_mon["toan"].strip()
+    if "Lý" in (ly_do or "") and theo_mon.get("ly"):
+        return theo_mon["ly"].strip()
+    if "Hóa" in (ly_do or "") and theo_mon.get("hoa"):
+        return theo_mon["hoa"].strip()
+    return cfg.get("mau_binh_luan_mac_dinh", "").strip()
+
+
+def soan_binh_luan(text, cfg, ly_do=""):
+    mac_dinh = chon_mau_theo_mon(ly_do, cfg)
     ai = cfg.get("ai", {})
     key = ai.get("gemini_api_key", "").strip()
     if not ai.get("bat", False) or not key or key.startswith("DIEN_"):
-        return None
+        return mac_dinh or None
     prompt = (
         "Bạn là gia sư đang trả lời một bài đăng tìm gia sư trên Facebook.\n"
         "Viết MỘT bình luận tiếng Việt ngắn (3-6 dòng), tự nhiên, lịch sự, "
@@ -282,11 +398,123 @@ def gui_thong_bao(post, cfg, dry_run=False):
     return ok_any
 
 
+# --------------------------------------------------- Nhận từ Chuông FB (Extension)
+_TIME_RE = re.compile(
+    r"^(\d+\s*(giây|phút|giờ|ngày|tuần|tháng|năm|seconds?|minutes?|hours?|days?|weeks?|m|h|d|w)\b.*"
+    r"|vừa xong|bây giờ|hôm qua|just now|yesterday)(\s*trước|\s*ago)?$",
+    re.IGNORECASE,
+)
+
+
+def tach_thong_bao_fb(raw_text):
+    """Tách chuỗi thông báo trên chuông Facebook thành (tiêu_đề_nhóm, nội_dung_bài)."""
+    cleaned = re.sub(r"^\s*(?:Chưa đọc|Unread)\s*", "", raw_text or "", flags=re.IGNORECASE)
+    lines = []
+    for ln in cleaned.splitlines():
+        s = re.sub(r"^\s*(?:Chưa đọc|Unread)\s*", "", ln.strip(), flags=re.IGNORECASE).strip()
+        if not s:
+            continue
+        if bo_dau(s) in ("chua doc", "unread", "thong bao moi", "new notification"):
+            continue
+        if _TIME_RE.match(s):
+            continue
+        lines.append(s)
+    joined = "\n".join(lines).strip()
+    m = re.match(
+        r"^((?:Bây giờ|Mới|Nổi bật|Hoạt động mới)\s+trong\s+[^:\n]+"
+        r"|[^\n:]{1,90}?\s+(?:đã đăng|đã chia sẻ[^:\n]*|vừa đăng|posted|shared[^:\n]*)\s+trong\s+[^:\n]+)\s*:\s*(.+)$",
+        joined,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+    if len(lines) >= 2 and " trong " in lines[0].lower():
+        return lines[0], "\n".join(lines[1:]).strip()
+    return "Thông báo nhóm Facebook", joined
+
+
+def xu_ly_thong_bao_extension(items, cfg, dry_run=False):
+    moi, dat = 0, 0
+    with _seen_lock:
+        seen = load_json(SEEN_PATH, {"ids": []})
+        seen_ids = set(seen["ids"])
+
+        for it in items:
+            href = (it.get("href") or "").strip()
+            raw_text = (it.get("text") or "").strip()
+            clean_link = chon_link_bai([href]) or href
+            is_permalink = any(x in clean_link for x in ("/posts/", "/permalink/", "story_fbid=", "/share/p/"))
+            uid = "fb:" + (clean_link if is_permalink else (it.get("key") or f"{clean_link}|{raw_text[:120]}"))
+            if uid in seen_ids:
+                continue
+            moi += 1
+            subject, body = tach_thong_bao_fb(raw_text)
+            ok, ly_do = danh_gia_bai(body, cfg, subject=subject)
+            if ok:
+                dat += 1
+                log(f"🔔 [Chuông FB] ĐẠT: {subject[:55]} -> {body[:70]} ({ly_do})")
+                post = {
+                    "subject": subject,
+                    "text": body[:3000],
+                    "link": clean_link,
+                    "reason": ly_do,
+                    "comment": soan_binh_luan(body, cfg, ly_do) or "",
+                }
+                if not gui_thong_bao(post, cfg, dry_run):
+                    continue
+            else:
+                log(f"   [Chuông FB] bỏ qua: {subject[:45]} | {body[:55]} ({ly_do})")
+            seen_ids.add(uid)
+
+        if moi and not dry_run:
+            seen["ids"] = list(seen_ids)[-5000:]
+            save_json(SEEN_PATH, seen)
+    return {"new": moi, "matched": dat}
+
+
+def khoi_dong_cong_extension(cfg, dry_run=False):
+    port = int(cfg.get("cong_extension", 8765))
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, fmt, *args):
+            return
+
+        def _json(self, code, obj):
+            data = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            if self.path.startswith("/health"):
+                return self._json(200, {"ok": True})
+            self._json(404, {"ok": False})
+
+        def do_POST(self):
+            if not self.path.startswith("/ingest"):
+                return self._json(404, {"ok": False})
+            try:
+                n = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(n).decode("utf-8"))
+                res = xu_ly_thong_bao_extension(payload.get("items", []), cfg, dry_run)
+                self._json(200, {"ok": True, **res})
+            except Exception as e:
+                log(f"Lỗi nhận từ Extension: {e}")
+                self._json(500, {"ok": False, "error": str(e)})
+
+    srv = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    log(f"🌐 Cổng nhận thông báo Chuông FB đã mở tại http://127.0.0.1:{port}/ingest")
+
+
 # ------------------------------------------------------------------ Gmail (IMAP)
 def kiem_tra_gmail(cfg, dry_run=False):
     g = cfg["gmail"]
-    seen = load_json(SEEN_PATH, {"ids": []})
-    seen_ids = set(seen["ids"])
+    with _seen_lock:
+        seen = load_json(SEEN_PATH, {"ids": []})
+        seen_ids = set(seen["ids"])
 
     since = (datetime.now() - timedelta(days=int(g.get("so_ngay_quet_lai", 1)))).strftime("%d-%b-%Y")
     imap = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -306,13 +534,13 @@ def kiem_tra_gmail(cfg, dry_run=False):
         msg = email.message_from_bytes(raw[0][1], policy=default_policy)
         subject, text, links = doc_email(msg)
         moi += 1
-        ok, ly_do = danh_gia_bai(subject + "\n" + text, cfg)
+        ok, ly_do = danh_gia_bai(text or subject, cfg, subject=subject)
         if ok:
             dat += 1
             log(f"✅ ĐẠT: {subject[:70]} ({ly_do})")
             post = {
                 "subject": subject, "text": text[:3000], "link": chon_link_bai(links) or "",
-                "reason": ly_do, "comment": soan_binh_luan(text, cfg) or "",
+                "reason": ly_do, "comment": soan_binh_luan(text, cfg, ly_do) or "",
             }
             if not gui_thong_bao(post, cfg, dry_run):
                 continue  # chưa gửi được thì lần sau thử lại
@@ -322,8 +550,10 @@ def kiem_tra_gmail(cfg, dry_run=False):
 
     imap.logout()
     if not dry_run:
-        seen["ids"] = list(seen_ids)[-5000:]
-        save_json(SEEN_PATH, seen)
+        with _seen_lock:
+            cur = set(load_json(SEEN_PATH, {"ids": []})["ids"])
+            seen["ids"] = list(cur | seen_ids)[-5000:]
+            save_json(SEEN_PATH, seen)
     log(f"Xong: {moi} email mới, {dat} bài phù hợp")
 
 
@@ -343,10 +573,10 @@ def main():
 
     if args.test_notify:
         ok = gui_thong_bao({
-            "subject": "🧪 Thông báo thử từ Radar",
+            "subject": "🧪 [BÀI MẪU THỬ KẾT NỐI — không phải bài thật trên FB]",
             "text": "em cần tìm gia sư lý 12, cả học và cả ôn thi ạ, học online ạ",
-            "link": "https://www.facebook.com/", "reason": "Môn: Lý | Lớp: 12",
-            "comment": "Chào em, anh nhận kèm Lý 12 online... (bình luận mẫu)",
+            "link": "", "reason": "Môn: Lý | Lớp: 12",
+            "comment": cfg.get("mau_binh_luan_mac_dinh") or "Chào em, anh nhận kèm Lý 12 online... (bình luận mẫu)",
         }, cfg)
         print("Gửi thành công!" if ok else "Gửi thất bại — xem lỗi ở trên.")
         return
@@ -357,6 +587,13 @@ def main():
         if ok and cfg.get("ai", {}).get("bat"):
             print("Bình luận gợi ý:\n" + (soan_binh_luan(args.test_text, cfg) or "(AI lỗi)"))
         return
+
+    if not args.once and not giu_khoa_duy_nhat():
+        log("Radar đã có 1 tiến trình khác đang chạy ngầm, tự thoát để tránh trùng.")
+        return
+
+    if not args.once:
+        khoi_dong_cong_extension(cfg, args.dry_run)
 
     phut = int(cfg.get("chu_ky_phut", 3))
     while True:

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Radar Tìm Học Sinh — Chuông & Nhóm FB",
+  "version": "2.0.0",
+  "description": "Đọc bài tìm gia sư mới từ Bảng feed Nhóm và Chuông thông báo trên Chrome của bạn, lọc Toán/Lý/Hóa 10-12 và bắn về App Radar HS.",
+  "permissions": ["storage", "alarms", "tabs"],
+  "host_permissions": [
+    "http://127.0.0.1:8765/*",
+    "https://www.facebook.com/*",
+    "https://web.facebook.com/*"
+  ],
+  "action": {
+    "default_title": "Radar Tìm Học Sinh",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.facebook.com/*", "https://web.facebook.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

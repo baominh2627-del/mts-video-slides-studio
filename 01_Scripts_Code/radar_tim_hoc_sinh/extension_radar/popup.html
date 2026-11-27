@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { width: 290px; margin: 0; padding: 12px; background: #0f172a; color: #e2e8f0; font: 13.5px/1.45 system-ui, sans-serif; }
+    h3 { margin: 0 0 6px; font-size: 15px; }
+    .status { padding: 6px 8px; border-radius: 8px; background: #1e293b; margin-bottom: 10px; font-size: 12.5px; }
+    .row { display: flex; align-items: center; justify-content: space-between; margin: 8px 0; gap: 8px; }
+    button { width: 100%; padding: 8px 10px; margin-top: 6px; border-radius: 8px; border: 1px solid #334155; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+    button.sec { background: #1e293b; }
+    .muted { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h3>📡 Radar Tìm Học Sinh</h3>
+  <div id="status" class="status">Đang kiểm tra kết nối...</div>
+
+  <label class="row">
+    <span>Tự làm mới tab Canh Nhóm (3 phút)</span>
+    <input type="checkbox" id="auto-refresh" checked />
+  </label>
+
+  <button id="open-feed">🚀 Mở tab Canh Tất Cả Nhóm</button>
+  <button id="scan-now" class="sec">🔍 Quét lại trang đang mở</button>
+  <button id="open-app" class="sec">📱 Mở App Radar HS</button>
+
+  <div id="stats" class="muted"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
