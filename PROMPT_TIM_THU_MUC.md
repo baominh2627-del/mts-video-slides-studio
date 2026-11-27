@@ -82,6 +82,44 @@ Khi mở phiên chat mới với AI, bạn chỉ cần **copy 1 trong các đo�
 > Hãy đọc file `C:\Users\DELL\Documents\CODE\DU_AN\PROMPT_TIM_THU_MUC.md` và `README.md` để nắm toàn bộ cấu trúc thư mục `DU_AN`, sau đó tìm giúp tôi các file liên quan đến [tên bài toán / chủ đề bạn cần tìm].
 > ```
 
+### 🔹 Prompt 6: Edit Video trên Google Drive (Chuẩn Ngang 16:9 - `1920x1080`, Full Edit & Phụ Đề Nhỏ Bên Dưới)
+> ```text
+> Làm việc tại `C:\Users\DELL\Documents\CODE\DU_AN`, tham khảo các script trong `01_Scripts_Code\render_video`, `01_Scripts_Code\audio_tts_subtitles`, `01_Scripts_Code\capcut_and_drive` và tài nguyên trong `03_Tai_Nguyen_Goc`. Dùng CLI `gdrive` (tài khoản `baominh2627@gmail.com`) để edit video trên Google Drive theo đúng các thông số sau:
+>
+> 1. Đầu vào từ Google Drive:
+> - Video gốc: [Tên file / File ID / Link Google Drive hoặc thư mục cần tìm]
+> - Dùng `gdrive readonly info` và `gdrive readonly download` tải video gốc (cùng file lời thoại/nhạc nền nếu có trên Drive) về thư mục tạm trong `DU_AN`, sau đó kiểm tra thông số bằng `ffprobe`.
+>
+> 2. Tỷ lệ khung hình & Quy cách xuất (BẮT BUỘC NGANG 16:9):
+> - Xuất video chuẩn ngang 16:9 (`1920x1080`, `30fps`, `libx264`, `yuv420p`, `aac`). KHÔNG dùng kích thước dọc `1080x1920` của các script TikTok cũ.
+> - Nếu video gốc khác tỷ lệ 16:9 thì [crop an toàn / thêm nền mờ 2 bên] để không méo hình.
+>
+> 3. Cắt ghép, Nhịp độ & Chuyển cảnh:
+> - Cắt bỏ đoạn: [ghi mốc thời gian hoặc "tự phát hiện và cắt khoảng lặng/nói vấp"].
+> - Tốc độ phát: [1.0x / 1.15x - 1.35x].
+> - Chuyển cảnh & chuyển động: [jump cut / fade-dissolve mượt / zoom-in nhẹ tại điểm nhấn].
+>
+> 4. Âm thanh (Voice + Nhạc nền + SFX):
+> - Giọng nói: [giữ giọng gốc lọc ồn & chuẩn hóa `loudnorm` / tạo lại bằng TTS].
+> - Nhạc nền (BGM): [file hoặc thể loại nhạc], mix âm lượng nhỏ vừa phải không át giọng nói, có fade-in/out.
+> - SFX: chèn hiệu ứng nhẹ ([whoosh / pop / ding]) ở điểm chuyển cảnh hoặc nhấn ý chính.
+>
+> 5. Hình ảnh, Màu sắc, Overlay & Branding:
+> - Chỉnh màu/ánh sáng: [sáng rõ sạch nét kiểu bài giảng / tương phản cao / cinematic].
+> - Branding: [gắn / không gắn] logo/watermark & Outro card từ `03_Tai_Nguyen_Goc\Logo_Va_Font` (căn tọa độ chuẩn 1920x1080).
+> - B-roll / Minh họa: chèn [ảnh / thẻ công thức / text callout / B-roll AI] tại [các đoạn cần nhấn mạnh].
+> - Ảnh bìa (Thumbnail 16:9): [Có / Không] tạo thêm thumbnail `1920x1080`.
+>
+> 6. Phụ đề nhỏ ở bên dưới:
+> - Nguồn lời thoại: [file kịch bản có sẵn / AI tự nghe nhận diện giọng nói Whisper].
+> - Tạo file `.ass` chuẩn `PlayResX: 1920`, `PlayResY: 1080`, `Alignment: 2` (căn giữa sát mép dưới), cỡ chữ nhỏ gọn (~34-40px), tối đa 1-2 dòng, `MarginV` thấp (~35-55px), [chữ trắng viền đen mảnh / có hộp nền mờ nhẹ], [có / không] highlight từ khóa. Burn cứng vào video và xuất kèm file `.ass`/`.srt`.
+>
+> 7. Kiểm tra & Cập nhật lại lên Google Drive:
+> - Kiểm tra frame mẫu ở vài mốc thời gian để đảm bảo phụ đề nhỏ gọn, không che nội dung chính và khớp tiếng.
+> - Đồng bộ lại lên Google Drive bằng: [`gdrive mutate update <FILE_ID> <file_moi.mp4>` (ghi đè giữ nguyên link cũ) / `gdrive mutate upload <file_moi.mp4> --parent <FOLDER_ID>` (upload bản mới)].
+> - Sau khi upload thành công lên Drive, [xóa file tạm & video local để nhẹ máy / giữ lại tại ...].
+> ```
+
 ---
 
 ## 💻 4. LỆNH POWERSHELL TÌM NHANH TRÊN MÁY (NẾU KHÔNG DÙNG AI)

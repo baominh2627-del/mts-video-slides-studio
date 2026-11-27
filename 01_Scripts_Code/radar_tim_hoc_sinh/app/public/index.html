@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Radar Tìm Học Sinh</title>
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/firebase-config.js"></script>
+</head>
+<body>
+  <!-- Màn hình đăng nhập -->
+  <section id="login" class="center hidden">
+    <img src="/icons/icon-192.png" alt="" width="96" height="96" />
+    <h1>Radar Tìm Học Sinh</h1>
+    <p class="muted">Bài tìm gia sư Toán · Lý · Hóa mới nhất</p>
+    <button id="btn-login" class="btn primary">Đăng nhập bằng Google</button>
+    <p id="login-error" class="error"></p>
+  </section>
+
+  <!-- App chính -->
+  <section id="main" class="hidden">
+    <header>
+      <div class="title">📡 Radar HS</div>
+      <div class="header-actions">
+        <button id="btn-notify" class="btn small">🔔 Bật thông báo</button>
+        <button id="btn-logout" class="btn small ghost" title="Đăng xuất">⎋</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button data-tab="new" class="tab active">Mới <span id="count-new" class="badge">0</span></button>
+      <button data-tab="done" class="tab">Đã bình luận</button>
+      <button data-tab="skip" class="tab">Bỏ qua</button>
+    </nav>
+
+    <div id="ios-hint" class="hint hidden">
+      📱 iPhone: bấm <b>Chia sẻ</b> → <b>Thêm vào MH chính</b>, mở app từ màn hình chính rồi bấm <b>Bật thông báo</b>.
+    </div>
+
+    <main id="list"></main>
+    <p id="empty" class="muted center-text hidden">Chưa có bài nào ở mục này.</p>
+  </section>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <template id="card-tpl">
+    <article class="card">
+      <div class="card-top">
+        <span class="reason"></span>
+        <span class="time muted"></span>
+      </div>
+      <div class="subject muted"></div>
+      <div class="text"></div>
+      <button class="more link-btn hidden">Xem thêm</button>
+      <div class="comment-box hidden">
+        <div class="comment-label">💬 Bình luận gợi ý (sửa được):</div>
+        <textarea class="comment" rows="4"></textarea>
+      </div>
+      <div class="actions">
+        <button class="btn primary act-open">📋 Copy &amp; mở bài</button>
+        <button class="btn act-done">✅ Đã bình luận</button>
+        <button class="btn ghost act-skip">Bỏ qua</button>
+        <button class="btn ghost act-restore hidden">↩ Đưa về Mới</button>
+      </div>
+    </article>
+  </template>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

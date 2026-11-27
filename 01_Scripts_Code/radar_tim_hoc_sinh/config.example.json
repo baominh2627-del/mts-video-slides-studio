@@ -1,0 +1,51 @@
+{
+  "gmail": {
+    "email": "baominh2627@gmail.com",
+    "app_password": "DIEN_MAT_KHAU_UNG_DUNG_16_KY_TU",
+    "thu_muc": "INBOX",
+    "so_ngay_quet_lai": 1
+  },
+  "chu_ky_phut": 3,
+
+  "kenh_thong_bao": ["app"],
+
+  "firebase": {
+    "service_account": "service-account.json",
+    "app_url": "https://tool-tu-dong-fb.web.app"
+  },
+
+  "telegram": {
+    "bot_token": "DIEN_TOKEN_BOT",
+    "chat_id": "DIEN_CHAT_ID"
+  },
+
+  "bo_loc": {
+    "tu_nhu_cau": [
+      "tìm gia sư", "cần gia sư", "cần tìm gia sư", "tìm gs", "cần gs", "cần tìm gs",
+      "tìm thầy", "tìm cô", "cần thầy", "cần cô", "tìm người dạy", "cần người dạy",
+      "tìm giáo viên", "cần giáo viên", "tìm người kèm", "cần người kèm"
+    ],
+    "mon_hoc": ["toán", "lý", "lí", "vật lý", "vật lí", "hóa", "hoá", "hóa học", "hoá học"],
+    "lop": [10, 11, 12],
+    "tu_loai_tru": [
+      "kèm 1:1", "kèm 1-1", "kèm 1 1", "1 kèm 1", "1:1", "1-1",
+      "offline", "off", "học off", "dạy off", "trực tiếp",
+      "dạy ở nhà", "học ở nhà", "dạy tại nhà", "học tại nhà", "tại nhà", "đến nhà", "tới nhà",
+      "nhận dạy", "nhận kèm", "tuyển gia sư", "tuyển giáo viên", "tuyển gs",
+      "đã tìm được", "đã có gia sư", "đã nhận"
+    ],
+    "cum_de_nham": [
+      "toàn bộ", "hoàn toàn", "an toàn", "toàn diện", "toàn quốc", "toàn thể", "toàn tâm",
+      "thanh hóa", "thanh hoá", "khánh hòa", "khánh hoà", "hòa bình", "hoà bình", "văn hóa", "văn hoá", "hoa kỳ", "điều hòa",
+      "lý do", "lí do", "lý tưởng", "quản lý", "quản lí", "xử lý", "xử lí", "hợp lý", "hợp lí", "tâm lý", "tâm lí", "đại lý", "lý lịch"
+    ]
+  },
+
+  "ai": {
+    "bat": false,
+    "gemini_api_key": "DIEN_GEMINI_API_KEY",
+    "model": "gemini-2.5-flash"
+  },
+
+  "ho_so_gia_su": "Tên: ...\nĐiểm thi ĐH: ...\nThành tích: ...\nMôn/lớp nhận dạy: Toán, Lý, Hóa 10-12\nHình thức: online\nHọc phí: ...k/buổi\nHọc thử: miễn phí 1 buổi\nZalo: 0xxx xxx xxx"
+}

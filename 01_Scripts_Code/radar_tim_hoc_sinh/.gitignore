@@ -1,0 +1,7 @@
+config.json
+seen.json
+service-account*.json
+*firebase-adminsdk*.json
+app/.firebase/
+app/.firebaserc
+__pycache__/
