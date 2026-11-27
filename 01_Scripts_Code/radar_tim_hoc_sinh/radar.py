@@ -41,6 +41,7 @@ LOG_PATH = BASE_DIR / "radar.log"
 LOCK_PATH = BASE_DIR / "radar.lock"
 _lock_fh = None
 _seen_lock = threading.Lock()
+_recent_events = []
 
 try:
     if sys.stdout:
@@ -226,12 +227,54 @@ def tach_ten_nhom(subject):
 
 _NHU_CAU_RE = re.compile(
     r"(?<![a-z0-9])(?:"
-    r"(?:tim|can|muon tim|kiem|tuyen)\b[^.!?\n]{0,28}?\b(?:gia su|gs|gsu|giao vien|gv|thay|co|"
+    r"(?:tim|can|muon tim|kiem|kim|tuyen|hoi)\b[^.!?\n]{0,32}?\b(?:gia su|gs|gsu|giao vien|gv|thay|co|"
     r"nguoi day|nguoi kem|ban day|ban kem|sv day|sv kem|sinh vien day|sinh vien kem|anh chi day|anh chi kem|ac day|ac kem)"
-    r"|(?:co ai|ai nhan|anh chi nao|ban nao|thay co nao)\b[^.!?\n]{0,22}?\b(?:day|kem|gia su|gs)"
+    r"|(?:co ai|ai nhan|anh chi nao|ban nao|thay co nao|ai day|ai kem)\b[^.!?\n]{0,24}?\b(?:day|kem|gia su|gs|mon|toan|ly|li|vat ly|vat li|hoa)"
     r"|(?:can kem|can hoc kem|muon hoc kem|pass lop|nhuong lop)"
     r")(?![a-z0-9])"
 )
+
+# Nhận diện bài của GIA SƯ / SINH VIÊN / TRUNG TÂM tự đăng tìm lớp, tìm học sinh, chào phụ huynh kèm CV
+_GIA_SU_TU_PR_RE = re.compile(
+    r"(?<![a-z0-9])(?:"
+    r"(?:tim|can tim|muon tim|kiem|kim|xin|nhan)\s+(?:them\s+)?(?:lop\s+(?:gia su|gs|day|kem)|hoc sinh|hoc vien)"
+    r"|(?:kinh chao|chao|kinh gui|gui)\s+(?:cac bac\s+|quy\s+)?phu huynh"
+    r"|(?:phu huynh|ba me|bo me)\s+(?:nao\s+)?(?:co nhu cau|quan tam)"
+    r"|(?:em|minh|con|anh|chi|toi)\s+(?:hien\s+)?(?:dang\s+)?la\s+(?:sinh vien|sv|giao vien|gv|cu nhan|thac si|gia su)"
+    r"|con/em\s+(?:dang|xin|nhan|cam on|se)"
+    r"|(?:theo|dinh kem)\s+cv\b|cv\s+(?:duoi day|ben duoi|cua em|cua minh)"
+    r"|doi tuong nhan day"
+    r"|nhan\s+(?:day|kem|on|gia su|gs|lop|boi duong|lay lai goc)"
+    r"|goc\s+tim\s+(?:lop|hoc sinh|hoc vien)"
+    r"|(?:mo\s+lop|gom\s+nhom|chieu\s+sinh|tuyen\s+sinh|tuyen\s+(?:them\s+)?(?:hoc sinh|hoc vien))"
+    r")(?![a-z0-9])"
+)
+
+# Nhận diện bài ghi rõ địa chỉ nhà / đường / ngõ / phường / quận (tức dạy trực tiếp offline)
+_DIA_CHI_ACCENT_RE = re.compile(
+    r"(?<![a-zà-ỹ0-9])(?:"
+    r"địa\s*chỉ|đ/c|đc\s*:|dc\s*:|khu\s*vực\s*:|kv\s*:|nơi\s*học\s*:|nơi\s*dạy\s*:|địa\s*điểm\s*:"
+    r"|số\s*nhà|nhà\s+ở|ngõ\s+\w+|ngách\s+\w+|hẻm\s+\w+|kiệt\s+\w+|ấp\s+\w+|thôn\s+\w+|xóm\s+\w+"
+    r"|(?<!quãng\s)(?<!con\s)(?<!tương\s)đường\s+(?!(?:tròn|thẳng|cao|phân\s+giác|trung\s+tuyến|trung\s+trực|tiệm\s+cận|sức|cong|chéo|kính|sinh|chuẩn|biểu\s+diễn|lối|dài|đi|truyền|dẫn|dây)\b)[a-zà-ỹ0-9]"
+    r"|chung\s*cư|khu\s*đô\s*thị|kđt\b|kdc\b|tòa\s+nhà|bến\s*xe"
+    r"|phường\s+[a-zà-ỹ0-9]|quận\s+[a-zà-ỹ0-9]|huyện\s+[a-zà-ỹ0-9]|tp\.?\s*thủ\s*đức"
+    r"|(?:bạn|anh|chị|thầy|cô|ai)\s+nào\s+đi\s+được|cần\s+[^\n.!?]{0,20}\bđến\s+(?:nhà|ôn|dạy|kèm)"
+    r"|(?:\b\d{1,4}[a-z]?(?:/\d{1,4})?\s+(?:lạc\s+long\s+quân|xuân\s+thủy|cầu\s+giấy|nguyễn\s+trãi|giải\s+phóng|minh\s+khai|chùa\s+láng|láng\s+hạ|đê\s+la\s+thành|tây\s+sơn|trường\s+chinh|phạm\s+văn\s+đồng|hoàng\s+quốc\s+việt|nguyễn\s+chí\s+thanh|kim\s+mã|liễu\s+giai|đội\s+cấn|thụy\s+khuê|âu\s+cơ|nguyễn\s+văn\s+cừ|vườn\s+lài))"
+    r")",
+    re.IGNORECASE,
+)
+
+# Chỉ áp dụng sau TÊN MÔN (không có chữ "lớp"): tránh nhầm "Toán 2 buổi", "Lý 100k", "Toán 1 tuần 3 buổi" thành số lớp
+_AFTER_MON_BAD_RE = re.compile(
+    r"^\s*(?:buoi|tieng|gio|phut|k\b|nghin|ngan|tr\b|trieu|d\b|dong|thang|nam\s+kinh\s+nghiem|"
+    r"ban\b|hoc\s+sinh|hs\b|:|-)"
+)
+
+_LOP_CHU_MAP = {
+    "lop mot": 1, "lop hai": 2, "lop ba": 3, "lop bon": 4, "lop tu": 4,
+    "lop nam": 5, "lop sau": 6, "lop bay": 7, "lop tam": 8, "lop chin": 9,
+    "lop muoi mot": 11, "lop muoi hai": 12, "lop muoi": 10,
+}
 
 _NAM_SINH_MAP = {
     "2k8": 12, "2008": 12,
@@ -242,27 +285,47 @@ _NAM_SINH_MAP = {
 }
 
 
-def danh_gia_bai(text, cfg, subject=""):
+def danh_gia_bai(text, cfg, subject="", age_hours=None, age_text=""):
     """Trả về (đạt?, lý do).
 
     Thứ tự:
-      1. Có từ loại trừ (offline, dạy ở nhà, kèm 1:1, nhận dạy, cấp 1/2...) -> BỎ
-      2. Không có nhu cầu tìm người dạy / gia sư                            -> BỎ
-      3. Không có môn Toán / Lý / Hóa                                       -> BỎ
-      4. Có ghi lớp nhưng ngoài 10, 11, 12                                  -> BỎ
-         Không ghi lớp                                                      -> vẫn NHẬN
+      0. Quá giới hạn thời gian đăng (mặc định > 2 ngày / 54 giờ)             -> BỎ
+      1. Có địa chỉ trực tiếp / từ loại trừ (offline, ở nhà, 1:1, cấp 1/2...) -> BỎ
+      2. Bài gia sư / sinh viên / trung tâm tự đăng tìm lớp                   -> BỎ
+      3. Không có nhu cầu tìm người dạy / gia sư                              -> BỎ
+      4. Không có môn Toán / Lý / Hóa                                         -> BỎ
+      5. Có ghi lớp nhưng ngoài 10, 11, 12                                    -> BỎ
+         Không ghi lớp (chỉ ghi tìm gia sư Toán/Lý/Hóa)                       -> ĐẠT
     """
     f = cfg["bo_loc"]
+    max_hours = float(f.get("gio_toi_da", 54))
+    if age_hours is not None:
+        try:
+            ah = float(age_hours)
+            if ah > max_hours:
+                return False, f"quá 2 ngày ({age_text or f'{int(ah // 24)} ngày'})"
+        except (TypeError, ValueError):
+            pass
+
     lines_raw = (text or "").splitlines()
     if subject:
         tn = bo_dau(tach_ten_nhom(subject)).strip()
         if tn:
             lines_raw = [ln for ln in lines_raw if bo_dau(ln).strip() != tn]
-    norm = bo_dau("\n".join(lines_raw))
+    raw_clean = "\n".join(lines_raw)
+    norm = bo_dau(raw_clean)
+
+    m_dc = _DIA_CHI_ACCENT_RE.search(raw_clean)
+    if m_dc:
+        return False, f"ghi địa chỉ trực tiếp ({m_dc.group(0).strip()})"
 
     loai = co_tu_khoa(norm, f.get("tu_loai_tru", []))
     if loai:
         return False, f"có từ loại trừ: {', '.join(loai)}"
+
+    m_pr = _GIA_SU_TU_PR_RE.search(norm)
+    if m_pr:
+        return False, f"bài gia sư tự đăng tìm lớp ({m_pr.group(0)})"
 
     nhu_cau = co_tu_khoa(norm, f.get("tu_nhu_cau", []))
     if not nhu_cau and not _NHU_CAU_RE.search(norm):
@@ -297,10 +360,38 @@ def danh_gia_bai(text, cfg, subject=""):
 
     lop_cho_phep = {int(x) for x in f.get("lop", [])}
     if lop_cho_phep:
-        tien_to = "|".join(re.escape(bo_dau(t)) for t in
-                           ["lớp", "lop", "khối", "k", "l"] + f.get("mon_hoc", []))
-        lop_thay = {int(n) for n in re.findall(
-            r"(?<![a-z0-9])(?:" + tien_to + r")\s*(\d{1,2})(?!\d)", norm_mon) if 1 <= int(n) <= 12}
+        lop_thay = set()
+
+        # 1) Ghi rõ tiền tố lớp ("lớp 5 Tuần 3", "khối 8", "k12", "lớp 6, 7") -> LUÔN LÀ SỐ LỚP
+        for m_gl in re.finditer(r"(?<![a-z0-9])(?:lop|khoi|k|l)\s*(\d{1,2})(?![0-9a-z:])(?:\s*[-/,&]\s*(\d{1,2})(?![0-9a-z:]))?", norm_mon):
+            for grp in (m_gl.group(1), m_gl.group(2)):
+                if grp and 1 <= int(grp) <= 12:
+                    lop_thay.add(int(grp))
+
+        # 2) Ghi số ngay sau tên môn ("Toán 12", "Lý 8 tuần 2 buổi", "Hóa 10, 11")
+        mon_tt = "|".join(re.escape(bo_dau(t)) for t in f.get("mon_hoc", []))
+        for m_ml in re.finditer(r"(?<![a-z0-9])(?:" + mon_tt + r")\s*(\d{1,2})(?![0-9a-z:])", norm_mon):
+            n_val = int(m_ml.group(1))
+            duoi = norm_mon[m_ml.end():]
+            if not (1 <= n_val <= 12):
+                continue
+            if _AFTER_MON_BAD_RE.match(duoi):
+                continue
+            if n_val == 1 and re.match(r"^\s*tuan\b", duoi):
+                continue  # "Toán 1 tuần 3 buổi" -> 1 tuần, không phải lớp 1
+            lop_thay.add(n_val)
+
+        # 3) Ghi lớp bằng chữ ("lớp năm", "lớp tám"...) hoặc tuổi ("bé 10 tuổi" -> cấp 1/2)
+        for cum_chu, lop_so in _LOP_CHU_MAP.items():
+            if re.search(r"(?<![a-z0-9])" + re.escape(cum_chu) + r"(?![a-z0-9])", norm_mon):
+                lop_thay.add(lop_so)
+        for m_tuoi in re.finditer(r"(?<![0-9])(\d{1,2})\s*tuoi(?![a-z0-9])", norm_mon):
+            tuoi = int(m_tuoi.group(1))
+            if 6 <= tuoi <= 14:
+                lop_thay.add(max(1, tuoi - 5))
+            elif 15 <= tuoi <= 18:
+                lop_thay.add(min(12, tuoi - 5))
+
         for ns, lop_qd in _NAM_SINH_MAP.items():
             if re.search(r"(?<![a-z0-9])" + re.escape(ns) + r"(?![a-z0-9])", norm_mon):
                 lop_thay.add(lop_qd)
@@ -435,6 +526,7 @@ def tach_thong_bao_fb(raw_text):
 
 def xu_ly_thong_bao_extension(items, cfg, dry_run=False):
     moi, dat = 0, 0
+    matched_items = []
     with _seen_lock:
         seen = load_json(SEEN_PATH, {"ids": []})
         seen_ids = set(seen["ids"])
@@ -444,32 +536,63 @@ def xu_ly_thong_bao_extension(items, cfg, dry_run=False):
             raw_text = (it.get("text") or "").strip()
             clean_link = chon_link_bai([href]) or href
             is_permalink = any(x in clean_link for x in ("/posts/", "/permalink/", "story_fbid=", "/share/p/"))
-            uid = "fb:" + (clean_link if is_permalink else (it.get("key") or f"{clean_link}|{raw_text[:120]}"))
+
+            if it.get("body"):
+                gname = (it.get("groupName") or "Nhóm Facebook").strip()
+                author = (it.get("author") or "").strip()
+                subject = f"{gname} · {author}" if author and author.lower() != gname.lower() else gname
+                body = it["body"].strip()
+            else:
+                subject, body = tach_thong_bao_fb(raw_text)
+
+            age_hours = it.get("ageHours")
+            age_text = (it.get("ageText") or "").strip()
+
+            uid = "fb:" + (clean_link if is_permalink else (it.get("key") or f"{subject}|{body[:120]}"))
             if uid in seen_ids:
                 continue
             moi += 1
-            subject, body = tach_thong_bao_fb(raw_text)
-            ok, ly_do = danh_gia_bai(body, cfg, subject=subject)
+            ok, ly_do = danh_gia_bai(body, cfg, subject=subject, age_hours=age_hours, age_text=age_text)
+            if ok and age_text:
+                ly_do = f"{ly_do} | ⏱ {age_text}"
+            cmt = (soan_binh_luan(body, cfg, ly_do) or "") if ok else ""
+
+            _recent_events.append({
+                "time": datetime.now().strftime("%H:%M:%S"),
+                "ok": ok,
+                "group": subject[:60],
+                "snippet": " ".join(body.split())[:90],
+                "reason": ly_do,
+                "link": clean_link,
+            })
+            del _recent_events[:-20]
+
             if ok:
                 dat += 1
-                log(f"🔔 [Chuông FB] ĐẠT: {subject[:55]} -> {body[:70]} ({ly_do})")
+                log(f"🔔 [FB] ĐẠT: {subject[:55]} -> {body[:70]} ({ly_do})")
                 post = {
                     "subject": subject,
                     "text": body[:3000],
                     "link": clean_link,
                     "reason": ly_do,
-                    "comment": soan_binh_luan(body, cfg, ly_do) or "",
+                    "comment": cmt,
                 }
                 if not gui_thong_bao(post, cfg, dry_run):
                     continue
+                matched_items.append({
+                    "key": it.get("key") or "",
+                    "reason": ly_do,
+                    "comment": cmt,
+                    "link": clean_link,
+                })
             else:
-                log(f"   [Chuông FB] bỏ qua: {subject[:45]} | {body[:55]} ({ly_do})")
+                log(f"   [FB] bỏ qua: {subject[:45]} | {body[:55]} ({ly_do})")
             seen_ids.add(uid)
 
         if moi and not dry_run:
             seen["ids"] = list(seen_ids)[-5000:]
             save_json(SEEN_PATH, seen)
-    return {"new": moi, "matched": dat}
+    return {"new": moi, "matched": dat, "matchedItems": matched_items}
 
 
 def khoi_dong_cong_extension(cfg, dry_run=False):
@@ -483,6 +606,7 @@ def khoi_dong_cong_extension(cfg, dry_run=False):
             data = json.dumps(obj, ensure_ascii=False).encode("utf-8")
             self.send_response(code)
             self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Content-Length", str(len(data)))
             self.end_headers()
             self.wfile.write(data)
@@ -490,6 +614,13 @@ def khoi_dong_cong_extension(cfg, dry_run=False):
         def do_GET(self):
             if self.path.startswith("/health"):
                 return self._json(200, {"ok": True})
+            if self.path.startswith("/recent"):
+                fresh_cfg = load_json(CONFIG_PATH, cfg)
+                return self._json(200, {
+                    "ok": True,
+                    "events": list(reversed(_recent_events)),
+                    "templates": fresh_cfg.get("mau_theo_mon", {}),
+                })
             self._json(404, {"ok": False})
 
         def do_POST(self):
@@ -498,7 +629,8 @@ def khoi_dong_cong_extension(cfg, dry_run=False):
             try:
                 n = int(self.headers.get("Content-Length", "0"))
                 payload = json.loads(self.rfile.read(n).decode("utf-8"))
-                res = xu_ly_thong_bao_extension(payload.get("items", []), cfg, dry_run)
+                fresh_cfg = load_json(CONFIG_PATH, cfg)
+                res = xu_ly_thong_bao_extension(payload.get("items", []), fresh_cfg, dry_run)
                 self._json(200, {"ok": True, **res})
             except Exception as e:
                 log(f"Lỗi nhận từ Extension: {e}")

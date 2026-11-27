@@ -197,11 +197,20 @@ function render() {
     });
 
     el.querySelector(".act-open").onclick = async () => {
-      if (ta.value.trim()) {
-        await copyText(ta.value, "📋 Đã copy bình luận — dán vào Facebook nhé!");
+      const cmt = ta.value.trim();
+      if (cmt) {
+        await copyText(cmt, "📋 Đã copy bình luận — dán vào Facebook nhé!");
       }
-      if (p.link) window.open(p.link, "_blank", "noopener");
-      else toast("Bài này không có link trực tiếp");
+      if (p.link) {
+        const snippet = (p.text || "").replace(/\s+/g, " ").trim().slice(0, 50);
+        const base = p.link.split("#")[0];
+        const hash = new URLSearchParams();
+        if (snippet) hash.set("radar_q", snippet);
+        if (cmt) hash.set("radar_cmt", cmt);
+        window.open(`${base}#${hash.toString()}`, "_blank", "noopener");
+      } else {
+        toast("Bài này không có link trực tiếp");
+      }
     };
     el.querySelector(".act-done").onclick = () => setStatus(p.id, "done");
     el.querySelector(".act-skip").onclick = () => setStatus(p.id, "skip");
