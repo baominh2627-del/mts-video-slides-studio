@@ -1,5 +1,6 @@
-# Nested independent Git repository (already pushed to baominh2627-del/free-music)
+# Nested independent Git repositories
 FREE_MUSIC/
+01_Scripts_Code/radar_tim_hoc_sinh/
 
 # Python cache & logs
 __pycache__/

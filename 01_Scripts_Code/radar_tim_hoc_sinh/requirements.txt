@@ -1,1 +1,0 @@
-# Không cần cài thêm thư viện ngoài (chỉ dùng thư viện chuẩn của Python).
